@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「说透」手机端预览 — 差评君语调 · C 背景定稿</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; background: #888; padding: 20px; }
+h1 { text-align: center; font-size: 18px; color: #fff; margin: 10px 0 24px; }
+.phones { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.phone-frame {
+  width: 390px; flex-shrink: 0;
+  border-radius: 40px; overflow: hidden;
+  border: 8px solid #1a1a1a;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  background: #1a1a1a;
+}
+.phone-notch {
+  height: 34px; background: #1a1a1a;
+  display: flex; align-items: center; justify-content: center;
+}
+.phone-notch span {
+  width: 80px; height: 24px; background: #1a1a1a; border-radius: 12px;
+}
+.phone-label {
+  padding: 6px 16px; background: #1a1a1a; color: #4682B4;
+  font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; text-align: center;
+}
+.phone-body {
+  height: 760px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+/* 隐藏滚动条 */
+.phone-body::-webkit-scrollbar { display: none; }
+
+/* ====== 共享组件样式 ====== */
+.st-wrapper {
+  padding: 24px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1a1a1a; line-height: 1.8; font-size: 15px;
+}
+.st-brand {
+  display: flex; align-items: center; margin-bottom: 20px;
+}
+.st-brand .dot { width: 8px; height: 8px; background: #4682B4; margin-right: 10px; }
+.st-brand .label {
+  font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; color: #4682B4;
+}
+.st-brand .line { flex: 1; height: 1px; background: #d0d0d0; margin-left: 12px; }
+
+.st-subtitle {
+  padding: 16px 0; margin-bottom: 20px;
+  border-top: 2px solid #1a1a1a; border-bottom: 1px solid #e0e0e0;
+}
+.st-subtitle .tag {
+  font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 2px; color: #999; margin-bottom: 6px;
+}
+.st-subtitle .text { font-size: 14px; line-height: 1.7; color: #666; }
+
+.st-cover { margin-bottom: 22px; overflow: hidden; }
+.st-cover img { width: 100%; height: auto; display: block; }
+
+.st-para {
+  margin-bottom: 22px; background-color: #fff; padding: 16px 14px;
+  border-top: 1px solid #e8e8e8;
+  border-left: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  border-bottom: 1px solid #f0f0f0;
+}
+.st-para p {
+  margin: 0 0 12px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;
+}
+.st-para p:last-child { margin-bottom: 0; }
+
+/* 双层加粗：数据下划线 */
+.hl-data { border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700; }
+/* 双层加粗：人物/观点/实体纯加粗 */
+.hl-text { font-weight: 700; }
+
+/* 数据卡 */
+.st-data {
+  padding: 16px 18px; margin: 0 0 22px 0;
+  background: #fff; border: 1px solid #d0d0d0; border-left: 3px solid #4682B4;
+}
+.st-data .data-label {
+  font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 2px; color: #4682B4; margin-bottom: 8px;
+}
+.st-data .data-row { margin-bottom: 4px; font-size: 14px; line-height: 1.7; color: #1a1a1a; }
+.st-data .data-num {
+  font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #4682B4;
+}
+.st-data .data-desc { color: #999; font-size: 12px; }
+.st-data .data-divider { height: 1px; background: #e8e8e8; margin: 8px 0; }
+
+/* 引用卡 */
+.st-quote {
+  padding: 14px 18px; margin: 0 0 22px 0;
+  border: 1px solid #d0d0d0; background: transparent;
+}
+.st-quote p { font-size: 14px; line-height: 1.7; color: #555; font-style: italic; margin: 0; }
+.st-quote .src {
+  font-family: 'Courier New', monospace; font-size: 10px; color: #aaa; margin-top: 6px; font-style: normal;
+}
+
+/* 分隔符 */
+.st-sep { text-align: center; margin: 6px 0 22px 0; }
+.st-sep span {
+  font-family: 'Courier New', monospace; font-size: 14px; letter-spacing: 8px; color: #ccc;
+}
+
+/* 收束区域 */
+.st-closure {
+  border-top: 2px solid #1a1a1a; border-bottom: 2px solid #1a1a1a;
+  padding: 18px 0; margin: 22px 0;
+}
+.st-closure p { font-size: 14px; line-height: 1.8; color: #444; font-weight: 500; margin: 0; }
+
+/* 品牌行 */
+.st-footer {
+  margin-top: 24px; padding: 12px 0; border-top: 1px solid #e0e0e0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.st-footer .brand { font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; color: #999; }
+.st-footer .sub { font-family: 'Courier New', monospace; font-size: 10px; color: #ccc; margin-top: 3px; }
+.st-footer .dots span {
+  display: inline-block; width: 6px; height: 6px; background: #4682B4; margin-left: 4px;
+}
+</style>
+</head>
+<body>
+
+<h1>「说透」手机端预览 — 差评君语调 · C 背景定稿</h1>
+
+<div class="phones">
+
+<!-- ==================== C: 像素块 8px 网格 ==================== -->
+<div class="phone-frame">
+  <div class="phone-notch"><span></span></div>
+  <div class="phone-label">C — 像素块（8px 钢蓝微网格）</div>
+  <div class="phone-body">
+    <div class="st-wrapper" style="background-color: #fafafa; background-image: linear-gradient(90deg, rgba(70,130,180,0.04) 1px, transparent 1px), linear-gradient(rgba(70,130,180,0.04) 1px, transparent 1px); background-size: 8px 8px;">
+
+      <div class="st-brand">
+        <span class="dot"></span>
+        <span class="label">说透 / SHUOTOU</span>
+        <span class="line"></span>
+      </div>
+
+      <div class="st-subtitle">
+        <div class="tag">SUBTITLE</div>
+        <div class="text">裁掉容易，再招回来要付更贵的价格。高估AI能力的账单，正在结清</div>
+      </div>
+
+      <div class="st-cover">
+        <img src="./AI裁员再回聘/附件/cover.jpg" />
+      </div>
+
+      <div class="st-para">
+        <p>2024年，<span class="hl-text">Klarna的CEO</span>对着记者说了一句话，直接被全网转了数万次——我们用AI干掉了<span class="hl-data">700个客服</span>的活儿，它的工作量相当于700个全职员工</p>
+        <p>语气很笃定，数字很精准，具体到让人觉得这件事已经算完了，账已经结清了，故事可以翻篇了</p>
+        <p>但你仔细看招聘页面就会发现一个很尴尬的事情——不到一年后，Klarna悄悄开始招人了，那些新岗位的职责描述，和被裁掉的那批人干的事儿，几乎一模一样</p>
+        <p>嗯。。没有人觉得需要解释这个矛盾</p>
+        <p>亚马逊那边更离谱，他们有一套叫<span class="hl-text">"Just Walk Out"</span>的技术，无人收银、AI驱动，宣传材料拍得很好看。直到有记者去查，才发现这套系统背后实际上依赖着大约<span class="hl-data">1000名印度远程工人</span>，实时盯着摄像头画面、手动标注每一笔交易，说白了就是把人藏到了镜头后面</p>
+        <p>把这两件事放在一起，说明的不是AI失败了，而是<span class="hl-text">AI被提前宣判了胜利</span>，在账期还没到的时候</p>
+      </div>
+
+      <div class="st-data">
+        <div class="data-label">DATA — AI落地项目失败率</div>
+        <div class="data-row"><span class="data-num">70-85%</span> <span class="data-desc">— MIT/兰德估算，未达预期目标</span></div>
+        <div class="data-divider"></div>
+        <div class="data-row"><span class="data-num">17% → 42%</span> <span class="data-desc">— 企业放弃AI计划比例，2024→2025</span></div>
+      </div>
+
+      <div class="st-para">
+        <p>那问题来了，这到底是个例，还是普遍现象？</p>
+        <p>数据说话，<span class="hl-data">70%到85%</span>的AI落地项目没能达到预期目标，这是MIT和兰德研究所的估算，不是什么悲观派在那儿唱衰，是统计出来的事。2024年，有<span class="hl-data">17%</span>的企业承认放弃了大部分AI计划，到2025年，这个比例直接跳到了<span class="hl-data">42%</span></p>
+        <p>你想啊，<span class="hl-text">Block</span>是另一个可以拿来对照的案例，这家支付公司一次性裁员<span class="hl-data">4000人</span>，占全员<span class="hl-data">40%</span>，理由也是AI效率提升。但事后有研究去统计，能拿出可量化AI效益证明的公司，只有<span class="hl-data">6%</span></p>
+        <p>其实逻辑不复杂，问题从来不是AI有没有用，而是它在多少家公司里，<span class="hl-text">被当成了一个方便的借口</span>，用来为原本说不清楚的决策背书</p>
+      </div>
+
+      <div class="st-sep"><span>· · · · ·</span></div>
+
+      <div class="st-quote">
+        <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+        <div class="src">— CNBC引用分析师观点，2025年10月</div>
+      </div>
+
+      <div class="st-para">
+        <p>好，那问题来了，那些回聘的公司，有没有人站出来说一句——我们当时的判断有问题？</p>
+        <p>没有。裁员的那一刻，AI是原因；回聘的那一刻，市场需求是原因，业务扩张是原因，反正不是"我们当时高估了AI"。两句话都可以是真的，但两次决策之间的那段沉默，没有任何一家公司去填</p>
+        <p>回聘是无声的，承认失误则从未发生</p>
+      </div>
+
+      <div class="st-closure">
+        <p>椅子不是AI搬走的，是公司算清楚一道成本题之后，自己决定把椅子收了。至于后来又把椅子搬回来这件事，嗯，那是另一道题了</p>
+      </div>
+
+      <div class="st-footer">
+        <div>
+          <div class="brand">ZAYEN知览</div>
+          <div class="sub">说透 · SHUOTOU</div>
+        </div>
+        <div class="dots">
+          <span style="opacity: 1;"></span>
+          <span style="opacity: 0.6;"></span>
+          <span style="opacity: 0.3;"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+<p style="text-align: center; margin-top: 24px; font-size: 12px; color: #bbb; line-height: 1.6;">
+手机端 390px 宽度模拟 · 可滑动查看全文<br>
+加粗双层策略：<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; color: #fff;">数据用钢蓝下划线</span> · <strong style="color: #fff;">人物/观点用纯加粗</strong><br>
+差评君语调 · C 背景定稿版
+</p>
+
+</body>
+</html>

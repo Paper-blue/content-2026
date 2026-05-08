@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出口管制之下，DeepSeek 用架构创新绕出了另一条路</title>
+</head>
+<body>
+
+<section style="max-width: 100%; box-sizing: border-box; padding: 32px 16px; background-color: #fafafa; background-image: linear-gradient(90deg, rgba(200,200,200,0.35) 0.5px, transparent 0.5px), linear-gradient(rgba(200,200,200,0.35) 0.5px, transparent 0.5px); background-size: 16px 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #3a3a3e; line-height: 1.8; font-size: 15px;">
+
+<section style="max-width: 680px; margin: 0 auto;">
+
+<!-- ========== 品牌标签 ========== -->
+<section style="margin-bottom: 20px;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 14px; letter-spacing: 3px; color: #4682B4;">&#9632; 说透 / SHUOTOU · 知览</p>
+<section style="margin-top: 8px; height: 1px; background-color: #d0d0d0;"></section>
+</section>
+
+<!-- ========== 引言区域 ========== -->
+<section style="padding: 16px 18px; margin-bottom: 20px; background-color: #fff; border: 1px solid #e8e8e8; border-top: 2px solid #1a1a1a;">
+<p style="margin: 0 0 6px 0; font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 2px; color: #999;">SUBTITLE</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #666;">两块 4090 可以本地跑，API 便宜 50 倍，但 DeepSeek V4 真正值得关注的信号是：梁文锋这次把华为芯片放在了优先位置，在英伟达芯片出口管制没有松动的情况下，他选择把算力这道题的答案重新算了一遍。</p>
+</section>
+
+<!-- 头图 -->
+<section style="margin-bottom: 28px; text-align: center;">
+<img src="./附件/cover.jpg" style="max-width: 78%; height: auto; display: inline-block; border-radius: 0;" />
+</section>
+
+<!-- ========== 正文区域 ========== -->
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">4月11日，DeepSeek V4的规格被扒出来了，<strong style="font-weight: 700;">梁文锋</strong>本人确认4月下旬正式发布。<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">1万亿参数</span>，上下文窗口<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">100万token</span>，SWE-bench Verified超过80%，API定价大概<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">0.30美元</span>每百万token——这些数字单独看都挺唬人的，但最让我停下来想了一会儿的是另一件事：这个1万亿参数的模型，量化之后，<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">两块RTX 4090就能在本地跑起来</span>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">你想啊，4090是什么级别的卡？去年发布的时候一万多块钱一张，不算便宜，但对于搞AI的个人开发者和小团队来说，绝对够得着。两张4090加起来<strong style="font-weight: 700;">不到三万块</strong>，你就能在自己家里跑一个万亿参数的大模型，不需要租云服务器，不需要排队抢API额度，不需要把数据传给任何第三方。这事以前想都不敢想，因为万亿参数的模型在行业里一直意味着<strong style="font-weight: 700;">大公司的特权</strong>——你没有几千张A100或者H100，连训练的门槛都摸不到，更别说推理了。</p>
+</section>
+
+<section style="margin: 0 auto 26px auto; max-width: 78%; text-align: center;">
+<section style="border-radius: 0; overflow: hidden;">
+<img src="./附件/section-1.jpg" style="width: 100%; height: auto; display: block;" />
+</section>
+<p style="margin: 8px 0 0 0; text-align: center; font-size: 12px; color: #9a9a9a; line-height: 1.6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.3px;">两块4090，三万块钱，一个万亿参数的模型</p>
+</section>
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">那它是怎么做到的？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">这就得说到MoE架构了。<strong style="font-weight: 700;">MoE</strong>的全称是混合专家模型（Mixture of Experts），听着挺学术的，但道理其实不复杂。你可以这么理解：一个公司有1000个员工，但不是每个项目都让1000个人一起上，而是每次根据项目类型，挑出最合适的30几个人来干活，其他人待命。DeepSeek V4总共有1万亿参数，但每生成一个token，只激活大概<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">370亿参数</span>——<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">不到总量的4%</span>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">说白了就是，<strong style="font-weight: 700;">模型很大，但每次干活只用一小部分</strong>。这就是为什么两块4090就够了，因为你不需要同时把1万亿参数全塞进显存里，你只需要装得下那370亿就行。这个思路不是V4第一次用，DeepSeek V3就已经验证过了，V4是在V3的基础上把参数规模翻了好几倍，但激活参数的比例控制得更精准。</p>
+</section>
+
+<section style="padding: 16px 18px; margin: 0 0 22px 0; background: #fff; border: 1px solid #d0d0d0; border-left: 3px solid #4682B4;">
+<p style="margin: 0 0 4px 0; font-size: 14px; line-height: 1.7; color: #1a1a1a;"><span style="font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #4682B4;">1万亿</span> <span style="color: #999; font-size: 12px;">— DeepSeek V4 总参数量</span></p>
+<section style="height: 1px; background: #e8e8e8; margin: 8px 0;"></section>
+<p style="margin: 0 0 4px 0; font-size: 14px; line-height: 1.7; color: #1a1a1a;"><span style="font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #4682B4;">370亿</span> <span style="color: #999; font-size: 12px;">— 每次 token 生成实际激活的参数</span></p>
+<section style="height: 1px; background: #e8e8e8; margin: 8px 0;"></section>
+<p style="margin: 0 0 4px 0; font-size: 14px; line-height: 1.7; color: #1a1a1a;"><span style="font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #4682B4;">3.7%</span> <span style="color: #999; font-size: 12px;">— 激活比例，不到总量的 4%</span></p>
+</section>
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">还有一个新东西叫<strong style="font-weight: 700;">ECM</strong>，全称是Engram条件记忆（Engram Conditional Memory）。这个技术解决的是长文本处理的老问题——你把一本20万字的小说扔给大模型，它读到后面就把前面的内容忘得差不多了，准确率只有84%左右。ECM的做法有点像你读书时在关键段落折页角、划重点线，模型会主动标记和存储重要信息片段，需要的时候精准调用，不需要每次都从头到尾重新读一遍。加了ECM之后，长文本准确率从<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">84.2%</span>跳到了<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">97%</span>。</p>
+</section>
+
+<section style="text-align: center; margin: 6px 0 22px 0;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 6px; color: #4682B4;">— 01 —</p>
+</section>
+
+<section style="margin: 0 auto 26px auto; max-width: 78%; text-align: center;">
+<section style="border-radius: 0; overflow: hidden;">
+<img src="./附件/section-2.jpg" style="width: 100%; height: auto; display: block;" />
+</section>
+<p style="margin: 8px 0 0 0; text-align: center; font-size: 12px; color: #9a9a9a; line-height: 1.6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.3px;">从华为芯片的优先级，看封锁下的工程选择</p>
+</section>
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">好，技术规格说完了，说个更有意思的事。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">DeepSeek V4这次<strong style="font-weight: 700;">优先支持华为等国产AI芯片</strong>，<strong style="font-weight: 700;">没有向英伟达开放测试资格</strong>。你注意，这不是"也支持华为"，是"优先支持华为"，英伟达反而排在后面。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">你第一反应可能觉得这是政治表态——现在中美关系这个样子，支持国产芯片多少有点政治正确的意思。但你仔细想想，梁文锋是个工程师出身的人，DeepSeek在V3上已经证明过自己不太吃舆论那套，他们之前一直在用英伟达的卡做训练。那为啥V4突然调转方向？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">因为英伟达芯片的出口管制。美国从2022年开始限制高端AI芯片出口中国，<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">A100、H100</span>这些训练用的顶级GPU，中国公司拿不到了。DeepSeek在V3阶段还能靠库存和变通方式搞到一些，但到了V4这个规模，你不可能继续赌一条<strong style="font-weight: 700;">随时可能断掉的供应链</strong>。所以梁文锋做了一个很实际的判断：与其等英伟达芯片的出口管制松动（短期内看不到可能），不如把工程力量投入到让模型在华为芯片上高效运行这件事上。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">这不是一个意识形态的选择，是一个<strong style="font-weight: 700;">工程选择</strong>——你面前有两条路，一条随时可能被堵死，另一条虽然现在还不够宽，但至少你自己能修。那你选哪条？</p>
+</section>
+
+<section style="padding: 14px 18px; margin: 0 0 22px 0; border: 1px solid #d0d0d0; background: transparent;">
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #555; font-style: italic;">「真正决定路线的，不是哪条路更好走，是哪条路不会被别人断掉。」</p>
+</section>
+
+<section style="text-align: center; margin: 6px 0 22px 0;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 6px; color: #4682B4;">— 02 —</p>
+</section>
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">好，到这儿你可能觉得DeepSeek V4挺猛的，那我得泼点冷水。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">和<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">GPT-5.3</span>比，差距是实打实存在的。GPT-5.3在创意写作、复杂推理、多步骤逻辑链这些任务上，表现仍然明显领先。SWE-bench上DeepSeek V4超过80%，但GPT-5.3在同类测试中的成绩也在这个区间，而且在更开放的任务上——比如给你一段模糊需求让你从零设计一个系统——GPT-5.3的优势更明显。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">我用过DeepSeek V3，说实话，写代码、做翻译、跑结构化任务，它已经相当好用了，性价比极高。但你让它写一篇需要微妙情感把握的文章，或者处理一个需要在多个不确定条件之间做权衡的复杂决策，它和GPT-5.3之间的差距就出来了。V4在V3的基础上进步多少，目前只有规格数字，没有真实用户的大规模测试反馈，所以我只能说，差距大概率缩小了，但大概率还在。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">那这个差距重要吗？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">看你站在哪个角度。如果你是一家需要顶尖AI能力来做产品的公司，差距当然重要，你会继续用GPT-5.3。但如果你是一个开发者，想在本地跑个模型做点自己的项目，不想每月花几百美元买API——那DeepSeek V4就是目前唯一的选择。0.30美元每百万token的API定价，比OpenAI<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">便宜差不多50倍</span>，这不是同一个市场在竞争，是<strong style="font-weight: 700;">两个价格带在各自生长</strong>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">说白了，DeepSeek不需要比GPT-5.3强，它只需要在<span style="border-bottom: 2px solid #4682B4; padding-bottom: 1px; font-weight: 700;">90%的日常场景里够用</span>，同时便宜到让你没有理由不试。</p>
+</section>
+
+<section style="text-align: center; margin: 6px 0 22px 0;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 6px; color: #4682B4;">— 03 —</p>
+</section>
+
+<section style="background-color: #fff; padding: 16px 14px; border-top: 1px solid #e8e8e8; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8; border-bottom: 1px solid #f0f0f0; margin-bottom: 22px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">那对普通用户来说，这件事到底意味着什么？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">两件事。第一，<strong style="font-weight: 700;">AI能力的门槛在快速下降</strong>。你不需要是大公司，不需要有数据中心，两块消费级显卡就能在本地跑万亿参数模型。这意味着个人开发者、小团队、学生、研究者，<strong style="font-weight: 700;">第一次有了和大公司同级别的工具</strong>。你可以在自己的电脑上做实验，不用担心数据隐私，不用担心API随时涨价或者停服。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">第二，<strong style="font-weight: 700;">价格战已经开始了</strong>。0.30美元每百万token这个定价，几乎是在逼全球所有API提供商重新算账。OpenAI的GPT-5.3每百万token收费在15美元左右，即使考虑到性能差异，50倍的价差也足以让很多中小企业和个人开发者重新评估自己的技术栈选择。便宜不一定赢，但便宜到这个程度，一定会<strong style="font-weight: 700;">改变市场的结构</strong>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #1a1a1a;">嗯。。DeepSeek V4最重要的不是它有多强，你把那些参数和跑分放到一边，真正值得看的是它在什么条件下做到的这些。英伟达的芯片拿不到，那就在华为芯片上重新优化一遍架构；算力不够，那就用MoE把激活参数压到总量的4%；API太贵别人用不起，那就把价格打到地板上。<strong style="font-weight: 700;">限制不只是限制</strong>，它也在逼一种不同的工程路线加速成熟，而这条路线正在让AI能力变得更便宜、更分散。</p>
+</section>
+
+<!-- ========== 尾部区域 ========== -->
+
+<section style="margin-top: 28px; margin-bottom: 22px;">
+<section style="height: 2px; background-color: #1a1a1a; margin-bottom: 18px;"></section>
+<p style="margin: 0 0 10px 0; font-size: 17px; line-height: 1.8; color: #3a3a3e; font-weight: 600;">> 阿波罗号是在预算被砍了又砍之后才飞起来的——限制从来不只是限制。</p>
+</section>
+
+<!-- 结尾分隔 -->
+<section style="text-align: center; margin: 6px 0 22px 0;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 6px; color: #ccc;">— 04 —</p>
+</section>
+
+<!-- 底部品牌行 -->
+<section style="margin-top: 24px; padding: 12px 0; border-top: 1px solid #e0e0e0;">
+<p style="margin: 0; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; color: #999;">ZAYEN知览</p>
+<p style="margin: 3px 0 0 0; font-family: 'Courier New', monospace; font-size: 12px; color: #ccc;">说透 · SHUOTOU · 知览</p>
+</section>
+
+</section>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「说透」系列主题色预览</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", sans-serif; background: #f5f5f5; padding: 20px; }
+h1 { text-align: center; font-size: 28px; margin: 20px 0 10px; color: #333; }
+.subtitle { text-align: center; font-size: 14px; color: #999; margin-bottom: 40px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; }
+.card { border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.card-header { padding: 30px; color: #fff; }
+.card-header h2 { font-size: 22px; margin-bottom: 6px; }
+.card-header .hex { font-size: 13px; opacity: 0.8; font-family: monospace; }
+.card-header .tag { display: inline-block; margin-top: 10px; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,0.2); font-size: 12px; }
+.card-body { background: #fff; padding: 24px; }
+.card-body .series-name { font-size: 11px; letter-spacing: 3px; margin-bottom: 12px; }
+.card-body .article-title { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 12px; color: #1a1a1a; }
+.card-body .article-subtitle { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 16px; }
+.data-card { padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; }
+.data-card .data-title { font-size: 12px; margin-bottom: 8px; font-weight: 600; }
+.data-card .data-item { font-size: 13px; line-height: 1.8; }
+.data-card .data-item strong { font-weight: 700; }
+.quote-card { padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; border-left: 3px solid; }
+.quote-card .quote-text { font-size: 13px; line-height: 1.7; font-style: italic; }
+.quote-card .quote-source { font-size: 11px; margin-top: 6px; }
+.sample-text { font-size: 14px; line-height: 1.9; color: #333; }
+.sample-text .highlight { padding: 1px 3px; border-radius: 3px; }
+.cover-preview { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; }
+.cover-preview .mock-obj { width: 100px; height: 100px; border-radius: 20px; background: rgba(255,255,255,0.25); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+.divider { height: 2px; width: 140px; margin: 16px 0; border-radius: 1px; }
+</style>
+</head>
+<body>
+
+<h1>「说透」系列 · 主题色预览</h1>
+<p class="subtitle">对比 6 个候选色在文章组件中的实际效果</p>
+
+<div class="grid">
+
+<!-- 1. 深青灰 -->
+<div class="card">
+  <div class="card-header" style="background: #3D5A6E;">
+    <h2>① 深青灰</h2>
+    <span class="hex">#3D5A6E</span>
+    <br><span class="tag">冷静 · 理性 · 不煽动</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #3D5A6E;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(61,90,110,0.08);">
+      <div class="data-title" style="color: #3D5A6E;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(61,90,110,0.05); border-left-color: #3D5A6E;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #3D5A6E;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(61,90,110,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(61,90,110,0.3);"></div>
+    <div class="cover-preview" style="background: #3D5A6E;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 石墨蓝 -->
+<div class="card">
+  <div class="card-header" style="background: #2C3E50;">
+    <h2>② 石墨蓝</h2>
+    <span class="hex">#2C3E50</span>
+    <br><span class="tag">稳重 · 锐度 · 权威</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #2C3E50;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(44,62,80,0.08);">
+      <div class="data-title" style="color: #2C3E50;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(44,62,80,0.05); border-left-color: #2C3E50;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #2C3E50;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(44,62,80,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(44,62,80,0.3);"></div>
+    <div class="cover-preview" style="background: #2C3E50;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 烟灰绿 -->
+<div class="card">
+  <div class="card-header" style="background: #4A6B5D;">
+    <h2>③ 烟灰绿</h2>
+    <span class="hex">#4A6B5D</span>
+    <br><span class="tag">克制 · 独立 · 自然</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #4A6B5D;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(74,107,93,0.08);">
+      <div class="data-title" style="color: #4A6B5D;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(74,107,93,0.05); border-left-color: #4A6B5D;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #4A6B5D;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(74,107,93,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(74,107,93,0.3);"></div>
+    <div class="cover-preview" style="background: #4A6B5D;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 铁锈橙 -->
+<div class="card">
+  <div class="card-header" style="background: #A0522D;">
+    <h2>④ 铁锈橙</h2>
+    <span class="hex">#A0522D</span>
+    <br><span class="tag">锐利 · 直接 · 有温度</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #A0522D;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(160,82,45,0.08);">
+      <div class="data-title" style="color: #A0522D;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(160,82,45,0.05); border-left-color: #A0522D;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #A0522D;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(160,82,45,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(160,82,45,0.3);"></div>
+    <div class="cover-preview" style="background: #A0522D;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 墨紫灰 -->
+<div class="card">
+  <div class="card-header" style="background: #4A3F5C;">
+    <h2>⑤ 墨紫灰</h2>
+    <span class="hex">#4A3F5C</span>
+    <br><span class="tag">深沉 · 思辨 · 有距离</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #4A3F5C;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(74,63,92,0.08);">
+      <div class="data-title" style="color: #4A3F5C;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(74,63,92,0.05); border-left-color: #4A3F5C;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #4A3F5C;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(74,63,92,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(74,63,92,0.3);"></div>
+    <div class="cover-preview" style="background: #4A3F5C;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. 钢蓝 -->
+<div class="card">
+  <div class="card-header" style="background: #4682B4;">
+    <h2>⑥ 钢蓝</h2>
+    <span class="hex">#4682B4</span>
+    <br><span class="tag">清醒 · 现代 · 可信赖</span>
+  </div>
+  <div class="card-body">
+    <div class="series-name" style="color: #4682B4;">▎说 透</div>
+    <div class="article-title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="data-card" style="background: rgba(70,130,180,0.08);">
+      <div class="data-title" style="color: #4682B4;">AI落地项目失败率</div>
+      <div class="data-item"><strong>70-85%</strong> — MIT/兰德估算，未达预期目标</div>
+      <div class="data-item"><strong>17% → 42%</strong> — 企业放弃AI计划比例</div>
+    </div>
+    <div class="quote-card" style="background: rgba(70,130,180,0.05); border-left-color: #4682B4;">
+      <div class="quote-text">"AI已经变成了一个方便的短期成本削减借口。"</div>
+      <div class="quote-source" style="color: #4682B4;">— CNBC分析师，2025年10月</div>
+    </div>
+    <div class="sample-text">Klarna CEO说用AI替代了<span class="highlight" style="background: rgba(70,130,180,0.12);">700名客服</span>，语气很笃定。不到一年后，招聘页面悄悄打开了</div>
+    <div class="divider" style="background: rgba(70,130,180,0.3);"></div>
+    <div class="cover-preview" style="background: #4682B4;">
+      <div class="mock-obj"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<p style="text-align:center; margin-top: 40px; font-size: 12px; color: #bbb;">当前深度系列主题色 #B8746A（红棕）作为对照参考</p>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>背景方案对比</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, sans-serif; background: #eee; padding: 20px; }
+h1 { text-align: center; font-size: 24px; margin: 10px 0 30px; color: #333; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1200px; margin: 0 auto; }
+.card { border-radius: 0; overflow: hidden; border: 1px solid #ccc; }
+.card-label { padding: 10px 16px; background: #1a1a1a; color: #fff; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 2px; }
+.card-body { padding: 28px 20px; min-height: 420px; }
+.card-body .tag { font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 3px; color: #4682B4; margin-bottom: 16px; }
+.card-body .title { font-size: 18px; font-weight: 700; color: #1a1a1a; line-height: 1.5; margin-bottom: 12px; }
+.card-body .text { font-size: 14px; line-height: 1.9; color: #333; margin-bottom: 16px; }
+.card-body .text .hl { border-bottom: 2px solid #4682B4; padding-bottom: 1px; }
+.data-box { padding: 16px 18px; background: #fff; border: 1px solid #d0d0d0; border-left: 3px solid #4682B4; margin-bottom: 16px; }
+.data-box .data-label { font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 3px; color: #4682B4; margin-bottom: 8px; }
+.data-box .data-num { font-family: 'Courier New', monospace; font-size: 20px; font-weight: 700; color: #4682B4; }
+.data-box .data-desc { font-size: 12px; color: #999; }
+.quote-box { padding: 14px 18px; border: 1px solid #d0d0d0; margin-bottom: 16px; }
+.quote-box p { font-size: 13px; line-height: 1.7; color: #555; font-style: italic; }
+.quote-box .src { font-family: 'Courier New', monospace; font-size: 10px; color: #aaa; margin-top: 6px; font-style: normal; }
+.closure { border-top: 2px solid #1a1a1a; border-bottom: 2px solid #1a1a1a; padding: 16px 0; margin-top: 16px; }
+.closure p { font-size: 14px; line-height: 1.8; color: #444; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<h1>「说透」背景方案对比</h1>
+
+<div class="grid">
+
+<!-- A: 纯净白 + 无背景纹理 -->
+<div class="card">
+  <div class="card-label">A — 纯净白（无纹理，靠组件本身撑节奏）</div>
+  <div class="card-body" style="background: #fafafa;">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+<!-- B: 极淡灰噪点（CSS noise） -->
+<div class="card">
+  <div class="card-label">B — 纸质噪点（极淡灰底 + SVG噪点纹理）</div>
+  <div class="card-body" style="background-color: #f5f5f3; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.04%22/%3E%3C/svg%3E');">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+<!-- C: 像素块拼贴底 -->
+<div class="card">
+  <div class="card-label">C — 像素块（大像素方块拼贴，8px格）</div>
+  <div class="card-body" style="background-color: #f7f7f7; background-image:
+    linear-gradient(90deg, rgba(70,130,180,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(70,130,180,0.03) 1px, transparent 1px);
+    background-size: 8px 8px;">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+<!-- D: 斜交叉点阵 -->
+<div class="card">
+  <div class="card-label">D — 交叉点阵（45°斜线微纹理）</div>
+  <div class="card-body" style="background-color: #f8f8f8; background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(70,130,180,0.03) 10px, rgba(70,130,180,0.03) 11px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(70,130,180,0.03) 10px, rgba(70,130,180,0.03) 11px);">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+<!-- E: 稀疏方块散落 -->
+<div class="card">
+  <div class="card-label">E — 稀疏像素散落（随机感方块，大间距）</div>
+  <div class="card-body" style="background-color: #fafafa; background-image:
+    radial-gradient(square, rgba(70,130,180,0.06) 2px, transparent 2px);
+    background-size: 32px 32px;
+    background-position: 0 0, 16px 16px;">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+<!-- F: 纯白 + 左侧钢蓝竖线装饰 -->
+<div class="card">
+  <div class="card-label">F — 纯白 + 左侧装饰竖线（最极简）</div>
+  <div class="card-body" style="background: #fff; border-left: 4px solid #4682B4;">
+    <div class="tag">■ 说透 / SHUOTOU</div>
+    <div class="title">裁员是为了AI，回聘也是为了AI，员工算什么</div>
+    <div class="text">2024年，Klarna CEO说用AI替代了<span class="hl">700名客服</span>。不到一年后，招聘页面悄悄打开了，岗位职责和被裁那批人几乎一模一样</div>
+    <div class="data-box">
+      <div class="data-label">DATA — AI落地失败率</div>
+      <div class="data-num">70-85%</div>
+      <div class="data-desc">MIT/兰德估算，未达预期目标</div>
+    </div>
+    <div class="quote-box">
+      <p>"AI已经变成了一个方便的短期成本削减借口。"</p>
+      <div class="src">— CNBC分析师，2025</div>
+    </div>
+    <div class="closure"><p>音乐停下来，有人发现自己站着，坐在椅子上的人已经在讨论下一轮了</p></div>
+  </div>
+</div>
+
+</div>
+
+<p style="text-align: center; margin-top: 30px; font-size: 12px; color: #aaa;">微信公众号兼容性：A/C/D/F 最安全（纯 CSS），B 的 SVG 噪点可能被微信剥离</p>
+
+</body>
+</html>
