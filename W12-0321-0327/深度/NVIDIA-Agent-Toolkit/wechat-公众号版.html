@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA在GTC上推Agent开发平台：GPU厂商开始争夺Agent运行层</title>
+</head>
+<body>
+
+<section style="max-width: 100%; box-sizing: border-box; padding: 32px 16px; background-color: #f3f2f0; background-image: linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px); background-size: 28px 28px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #3a3a3e; line-height: 1.8; font-size: 15px;">
+
+<section style="max-width: 680px; margin: 0 auto;">
+
+<!-- ========== 头部品牌动图 ========== -->
+<section style="margin-bottom: 24px; border-radius: 8px; overflow: hidden;">
+<img src="https://mmbiz.qpic.cn/sz_mmbiz_gif/xgFq8Lb41ICwibWMQqISv72wibEsI8u2dC1jl7doN2S5PZVEo3xpZ6ibAGcoBqeoUmjfpQxbQ8megygQkhPRQ7BvgTxuibQq7Mz4iapDXibZnIFJk/640?wx_fmt=gif" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 引言区域 ========== -->
+<section style="padding: 20px 24px; margin-bottom: 26px; background-color: rgba(250,244,243,0.85); border-radius: 8px; border-left: 3px solid #c0503e;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #6a6a70;">卖铲子的开始修路了。NVIDIA的Agent Toolkit不只是工具包，是对Agent基础设施控制权的一次卡位</p>
+</section>
+
+<!-- 头图 -->
+<section style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/cover.jpg" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 正文区域 ========== -->
+
+<section style="margin-bottom: 30px; background-color: rgba(255,255,255,0.35); border-radius: 8px; padding: 18px 14px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">GPU卖到供不应求，NVIDIA却做了件怪事：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">给别人写软件</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">数据中心GPU市场，NVIDIA占了八成以上。H100和B200排着长队等发货，利润率接近60%。换句话说，光卖芯片就够过好日子了。但<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">黄仁勋</strong>显然不这么想</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">GTC 2026主题演讲，黄仁勋发布了<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">Agent Toolkit</strong>。这是一整套开源平台，里面装着三个核心组件：安全运行时NemoClaw、企业级蓝图AI-Q、自研的Nemotron模型系列。Salesforce、ServiceNow、Adobe、SAP在内，17家企业软件伙伴已在接入</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 16px 0; background-color: rgba(255,255,255,0.4); border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">NVIDIA Agent Toolkit三件套</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">NemoClaw</strong> — 开源安全运行时，给Agent加策略护栏和隐私边界</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">AI-Q蓝图</strong> — 企业深度研究Agent，前沿模型编排+开源模型执行，成本降50%</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">Nemotron模型</strong> — 自研开源模型家族（Super/Ultra/Omni/VoiceChat）</p>
+</section>
+
+<section style="margin-bottom: 30px; background-color: rgba(255,255,255,0.35); border-radius: 8px; padding: 18px 14px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">芯片公司为什么做Agent平台？"完善生态"是表面答案。但这说法太轻了，<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">撑不住这么大的投入</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">看一组数字。IQVIA，做生命科学数据的公司，生产环境里跑着<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">超过150个AI Agent</strong>。这些Agent覆盖内部和客户侧，而且客户阵容惊人：全球前20的制药公司，19家都在用。全部跑在真实业务里。不只是IQVIA。ServiceNow用Agent处理IT工单，SAP用Agent跑供应链预测。这些不是概念验证，是上线收费的产品</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Agent大规模部署，意味着算力需求变性质了。训练模型是一次性峰值负载，冲一波就完事。训练完成后，GPU集群就闲下来了。但Agent不一样——<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">7×24小时持续推理</strong>，是长期的基础负载。而且推理对延迟极其敏感。用户等不了三秒钟。所以每个Agent背后，都需要常驻GPU算力。不是租一次，是持续租。对NVIDIA来说，Agent是客户的客户。每多一个Agent跑起来，就多一份持续的GPU租金</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">所以Agent Toolkit的底层逻辑很清楚：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">修一条路，通往更大的算力消费</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">NVIDIA还要解决另一个问题：Agent开发的碎片化。企业想部署Agent，但<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">框架之间互不兼容</strong>。LangChain一套接口，AutoGen一套接口，CrewAI又一套。于是一家中型企业，可能同时用着三套框架，各跑各的</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">碎片化对谁最不利？GPU厂商。因为部署门槛一高，企业就犹豫。一犹豫，Agent就停在PPT里。Agent落地就慢，从而推理算力的消费量上不去。据估计，真正进入生产的Agent<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">不到总数的15%</strong>。剩下的全卡在两件事上：集成和安全审计</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">NVIDIA的打法很直接：趁碎片化还没固化，用开源工具包先占位。NemoClaw管安全运行时，AI-Q管架构蓝图，Nemotron管开箱即用的模型。你用什么模型都行，跑在哪朵云都行——但只要用NVIDIA的工具链，<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">性能就会自动倾斜到NVIDIA硬件上</strong></p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这条路跟Android很像。Google当年开源Android，图的是统一移动操作系统，从而承载广告业务。NVIDIA开源Agent Toolkit，同样图的是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">统一Agent运行层</strong>，进而承载算力消费。手法一样，赌注不同</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 24px 0; background-color: rgba(250,244,243,0.85); border-radius: 8px; border-left: 3px solid #d8a8a0;">
+<p style="margin: 0 0 10px 0; font-size: 15px; line-height: 1.8; color: #6a6a70;">我们正在把AI从试点阶段推向生产阶段</p>
+<p style="margin: 0; font-size: 12px; color: #a0a0a0;">— Jensen Huang, GTC 2026</p>
+</section>
+
+<section style="margin-bottom: 30px; background-color: rgba(255,255,255,0.35); border-radius: 8px; padding: 18px 14px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">重点落在"生产"两个字上。试点阶段烧的是工程师时间，进了生产才真正烧GPU算力。试点期一台机器就够，生产期可能要几十台。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">量级差着一到两个数量级</strong>。因此NVIDIA整盘棋押的就是一件事：从"试"到"用"的跨越，能加速到来</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">AWS、Azure、Google Cloud也在做Agent平台。而且它们手里还有自研芯片。Google的TPU已经迭代到第六代，Amazon的Trainium2专为推理优化，微软的Maia也在测试中。这些芯片的目标很明确：减少对NVIDIA的依赖。表面上看大家做的是同一件事，但利益结构完全不同。云厂商要的是把客户锁在自家云上。而NVIDIA要的恰恰相反：不管客户在哪朵云，底层都跑自家芯片。一个争应用层锁定权，一个争<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">运行层的标准权</strong></p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这也解释了全面开源的选择。开源消除了锁定顾虑，同时降低采纳门槛。NVIDIA不怕你拿走代码，跑在别的硬件上——<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">反正在NVIDIA硬件上性能永远最优</strong>。就像Android开源，但Google Pixel体验最好，一个逻辑</p>
+</section>
+
+<section style="padding: 16px 22px; margin: 0 0 24px 0; background-color: rgba(255,255,255,0.4); border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">Agent基础设施三层博弈：</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">云厂商 ── 锁定客户在自家云上（Azure/AWS/GCP）</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">模型公司 ── 让开发者依赖自家API（OpenAI/Anthropic/Google）</p>
+<p style="margin: 0; color: #3a3a3e;">芯片公司 ── 把运行层标准写进自家硬件（NVIDIA Agent Toolkit）</p>
+</section>
+
+<section style="margin-bottom: 30px; background-color: rgba(255,255,255,0.35); border-radius: 8px; padding: 18px 14px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">不过开源策略也有风险。Android是前车之鉴。Google靠开源统一了移动生态，但三星拿走了最大的硬件利润，华为甚至分叉出了鸿蒙。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">标准制定者未必是最终赢家</strong>。同样的逻辑放在这里：标准一旦真的统一了，AMD、Intel，甚至自研芯片的云厂商，都能在这套标准上做硬件适配。NVIDIA今天用开源换份额，未来却可能变成对手的跳板</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Bain的分析师在GTC后写了一句话：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">AI正在变成操作层</strong>。含义很明确——AI不再是独立模块，而是渗进了企业运营的每一层。从客服到供应链，从代码审查到财务审计。因此，谁控制这一层的工具链，谁就控制企业IT的地基</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">NVIDIA争夺的就是这个位置。它的优势在于先发和规模。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">八成市占率</strong>，意味着开发者默认就在NVIDIA硬件上调优。Agent Toolkit表面是工具，但它真正瞄准的是基础设施级控制权</p>
+</section>
+
+<!-- ========== 尾部区域 ========== -->
+
+<section style="padding: 18px 22px; margin: 16px 0 24px 0; background-color: rgba(250,244,243,0.85); border-radius: 8px; border-left: 3px solid #d8a8a0;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e; font-weight: 600;">铲子卖得好的人，最终总想去修路。修了路，铲子卖得更多。NVIDIA在GTC上亮出的，是一张路网规划图。能不能按图修下去，取决于一件事：Agent能不能从试点走进生产。如果能，NVIDIA手里握的就不只是芯片订单，而是整个Agent经济的地基使用权</p>
+</section>
+
+<!-- 结尾分隔 -->
+<section style="padding: 12px 0; margin-bottom: 6px; text-align: center;">
+<section style="display: inline-block; width: 36px; height: 2px; background-color: #c0503e; border-radius: 1px;"></section>
+</section>
+
+<!-- 底部品牌行 -->
+<section style="padding: 16px 0; text-align: center;">
+<p style="margin: 0 0 3px 0; font-size: 12px; color: #a0a0a0;">文 / Zayen知览</p>
+<p style="margin: 0; font-size: 11px; color: #c0c0c0; letter-spacing: 1px;">构建者视角的深度思考</p>
+</section>
+
+</section>
+</section>
+
+</body>
+</html>
