@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  height: 1440px;
+  overflow: hidden;
+  background: #F0F8FF;
+  font-family: 'HarmonyOS Sans SC', 'PingFang SC', sans-serif;
+}
+
+.canvas {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  background: linear-gradient(145deg, #D6EAFF 0%, #C8E0FA 50%, #D8EEFF 100%);
+  overflow: hidden;
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+.blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,132,244,0.65) 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(138,79,255,0.55) 0%, transparent 70%); top: 300px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0,180,220,0.50) 0%, transparent 70%); bottom: 100px; left: 100px; }
+.blob-4 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(180,80,255,0.40) 0%, transparent 70%); bottom: -50px; right: 100px; }
+
+.glass-orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(66,165,245,0.15); }
+.orb-1 { width: 200px; height: 200px; top: 120px; right: 80px; }
+.orb-2 { width: 140px; height: 140px; bottom: 180px; left: 60px; }
+.orb-3 { width: 90px; height: 90px; top: 480px; left: 200px; }
+
+.top-bar {
+  position: absolute;
+  top: 56px;
+  left: 60px; right: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+}
+.top-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 10px 24px;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(26, 26, 46, 0.60);
+  letter-spacing: 2px;
+}
+.top-watermark {
+  font-family: 'HarmonyOS Sans SC', 'PingFang SC', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: rgba(26, 26, 46, 0.35);
+  letter-spacing: 2px;
+}
+
+.content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  z-index: 10;
+}
+
+.glass-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  padding: 60px 56px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.4);
+  text-align: center;
+}
+
+.author {
+  font-size: 52px;
+  font-weight: 700;
+  color: #1A1A2E;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+.handle {
+  font-size: 30px;
+  font-weight: 400;
+  color: rgba(26, 26, 46, 0.45);
+  margin-bottom: 56px;
+  letter-spacing: 1px;
+}
+
+.divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, rgba(56,180,255,0.8), rgba(138,79,255,0.6));
+  border-radius: 2px;
+  margin: 0 auto 56px auto;
+}
+
+.cta {
+  font-size: 42px;
+  font-weight: 500;
+  color: rgba(26, 26, 46, 0.85);
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 18px 40px;
+  font-size: 28px;
+  font-weight: 500;
+  color: rgba(26, 26, 46, 0.80);
+  letter-spacing: 1px;
+}
+.action-btn.primary {
+  background: linear-gradient(135deg, rgba(56,180,255,0.25), rgba(138,79,255,0.25));
+  border: 1px solid rgba(56,180,255,0.35);
+  color: #1A1A2E;
+}
+
+.bottom-note {
+  position: absolute;
+  bottom: 60px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 24px;
+  color: rgba(26, 26, 46, 0.25);
+  letter-spacing: 1px;
+  z-index: 20;
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="glass-orb orb-1"></div>
+  <div class="glass-orb orb-2"></div>
+  <div class="glass-orb orb-3"></div>
+
+  <div class="top-bar">
+    <div class="top-label">AI DAILY</div>
+    <div class="top-watermark">@Zayen知览</div>
+  </div>
+
+  <div class="content">
+    <div class="glass-card">
+      <div class="author">Zayen知览</div>
+      <div class="handle">@Zayen知览 · AI DAILY</div>
+      <div class="divider"></div>
+      <div class="cta">每天 3 分钟<br/>掌握 AI 行业动态</div>
+      <div class="actions">
+        <div class="action-btn primary">👉 关注</div>
+        <div class="action-btn">❤️ 点赞</div>
+        <div class="action-btn">⭐ 收藏</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-note">AI DAILY · 02.28</div>
+</div>
+</body>
+</html>
