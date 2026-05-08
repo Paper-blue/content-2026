@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw 没你想的那么神</title>
+</head>
+<body>
+
+<section style="max-width: 100%; box-sizing: border-box; padding: 20px 16px; background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; line-height: 1.8; font-size: 16px;">
+
+<!-- ========== 头部区域 ========== -->
+<section style="text-align: center; margin-bottom: 30px;">
+<img src="./附件/cover.png" style="width: 100%; border-radius: 8px; margin-bottom: 16px;" />
+<h1 style="font-size: 22px; font-weight: bold; color: #2c3e50; margin: 0 0 8px 0; line-height: 1.4;">OpenClaw 没你想的那么神</h1>
+<p style="font-size: 13px; color: #999; margin: 0;">文 / Zayen知蓝</p>
+</section>
+
+<!-- ========== 正文区域 ========== -->
+
+<!-- 开头：好奇 -->
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">一月底，OpenClaw 的 GitHub 星标一周之内冲到了十几万。</p>
+<p style="margin: 0 0 16px 0;">项目经历挺戏剧性——奥地利工程师 Peter Steinberger 最初花了一个小时，用一段脚本把 WhatsApp 接到 Claude API 上，取名 Clawdbot。Anthropic 发了商标投诉，改叫 Moltbot。三天后 Steinberger 觉得名字不顺嘴，又改成了 OpenClaw。</p>
+<p style="margin: 0 0 16px 0;">真正把它推上风口的是 Moltbook——一个只允许 AI 代理发帖的社交网络。数千个跑着 OpenClaw 的 agent 自主注册、互相对话，人类只能围观。一周 200 万访客，科技媒体全在写它。</p>
+<p style="margin: 0 0 0 0;">我就是在这波热度里注意到的。不是工作需要，纯粹好奇。</p>
+</section>
+
+<!-- 一、选机器 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">一、选机器</h2>
+<p style="margin: 0 0 16px 0;">OpenClaw 的定位是<strong>本地运行的 AI 代理</strong>。不是网页聊天界面，而是跑在你自己设备上的 daemon 进程，通过消息平台接收指令，在本地执行——操作文件、跑 shell 命令、浏览网页、管理日历。</p>
+<p style="margin: 0 0 16px 0;">要让它有用，得 7x24 跑着。笔记本显然不行。</p>
+</section>
+
+<section style="text-align: center; margin-bottom: 24px;">
+<img src="./附件/section1-vps.png" style="width: 66%; border-radius: 6px;" />
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">一开始我想省事，试了轻量应用服务器。看着便宜够用，但 OpenClaw 很多配置需要在终端里交互式操作，Gateway 启动、消息渠道对接、权限白名单设置，每一步都要在终端里来回调试。轻量服务器的 Web Terminal 体验太差，命令稍微复杂一点就卡住。</p>
+<p style="margin: 0 0 16px 0;">折腾了一圈，最后选了新加坡的腾讯云 VPS。2 核 8G，SSH 直连，环境干净可控。</p>
+<p style="margin: 0 0 0 0;">这个选择过程本身就说明了一些事情：OpenClaw 面向的是能熟练操作服务器的开发者。</p>
+</section>
+
+<!-- 二、跑通 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">二、跑通</h2>
+<p style="margin: 0 0 16px 0;">安装不复杂：</p>
+</section>
+
+<section style="background: #f0f4f8; border-radius: 6px; padding: 16px; margin: 0 0 16px 0; font-size: 15px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0;">npm install -g openclaw</p>
+<p style="margin: 0;">openclaw onboard</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">引导向导会依次问你：用哪个 AI 模型、接哪个消息渠道、开放哪些权限。我选了 Claude 作后端，消息渠道接飞书。</p>
+<p style="margin: 0 0 16px 0;">飞书对接比我预想中顺畅——创建飞书机器人，配好 webhook，OpenClaw 填上 token，消息就通了。在飞书里给 VPS 上的 AI 代理发指令，它执行完把结果发回来。</p>
+<p style="margin: 0 0 16px 0;">第一次在手机上发了一句"帮我看看服务器磁盘使用情况"，几秒后收到了格式整齐的 <code style="background: #e9ecef; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c7254e;">df -h</code> 输出。</p>
+<p style="margin: 0 0 0 0;">平时要 SSH 登上去才能看的东西，在聊天界面里问一句就行。</p>
+</section>
+
+<!-- 三、四个场景 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">三、四个场景</h2>
+<p style="margin: 0 0 16px 0;">跑通之后，我陆续把几个实际需求搬了上去。</p>
+<p style="margin: 0 0 16px 0;"><strong>IBKR 盯盘</strong>。Interactive Brokers 的行情监控，之前是自己写脚本 + cron 定时跑，报警发邮箱。换成 OpenClaw 之后，飞书里直接通知，还能追问："这个波动什么原因？"——它会去查相关新闻。比纯脚本多了一层上下文能力。</p>
+<p style="margin: 0 0 16px 0;"><strong>每日新闻创作</strong>。定时抓取 AI 行业新闻，整理摘要，生成初稿。和已有的内容工作流可以衔接——OpenClaw 负责前期信息收集和粗加工，后续编辑还是在本地完成。</p>
+<p style="margin: 0 0 16px 0;"><strong>远程部署</strong>。一些实验性项目，之前要 SSH 上去手动跑命令。现在飞书里说"把 xx 项目重新部署一下"，它会走 git pull、build、restart。省了开终端的步骤。</p>
+<p style="margin: 0 0 0 0;"><strong>定时执行 Skill</strong>。投入时间最多的场景。也是踩坑最深的。</p>
+</section>
+
+<!-- 四、Cron 的坑 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">四、Cron 的坑</h2>
+<p style="margin: 0 0 16px 0;">OpenClaw 有一套 <strong>AgentSkills 技能系统</strong>，每个 skill 是一个带 YAML 配置的 Markdown 文件，定义了 AI 执行某类任务的流程和约束。社区维护的 ClawHub 上有上百个现成技能，也可以自己写。</p>
+<p style="margin: 0 0 16px 0;">我设想的用法是：写好 skill，配上 cron 定时触发，让 OpenClaw 像一个 7x24 的执行员，定时完成各种任务。</p>
+</section>
+
+<section style="text-align: center; margin-bottom: 24px;">
+<img src="./附件/section2-cron.png" style="width: 66%; border-radius: 6px;" />
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">调试的时候撞上了一个问题：<strong>cron 触发的任务不能开启 sub-agent</strong>。</p>
+<p style="margin: 0 0 16px 0;">如果 skill 内部需要调用子代理并行处理子任务——比如同时抓取多个新闻源、同时分析多个标的——cron 模式下跑不通。只能串行执行主流程，sub-agent 的调度链路在 cron 上下文中是断的。</p>
+<p style="margin: 0 0 16px 0;">调了很久才确认这不是配置问题，是架构限制。</p>
+<p style="margin: 0 0 16px 0;">最终我把 skill 逻辑拆开，需要并行的部分改成串行步骤，绕过 sub-agent。能跑了，但效率打了折扣。等于手动做了一次降级。</p>
+</section>
+
+<!-- 金句卡片：Cron 的核心洞察 -->
+<section style="margin-bottom: 24px;">
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0; line-height: 1.8;">OpenClaw 的 cron 调度和交互式执行，底层走的不是同一套能力。交互模式下可以开 sub-agent、做复杂编排；cron 模式下更像一个受限的脚本执行器。</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 0 0;">文档里没写这一点。</p>
+</section>
+
+<!-- 五、回归 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">五、回归</h2>
+<p style="margin: 0 0 16px 0;">刚开始用的时候，预期设高了。</p>
+</section>
+
+<section style="text-align: center; margin-bottom: 24px;">
+<img src="./附件/section3-reality.png" style="width: 66%; border-radius: 6px;" />
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">17 万 stars、铺天盖地的报道、Steinberger 在 YC 采访里说"80% 的 App 将在未来消失"。很容易觉得这是一个能替你做一切的 AI 管家。</p>
+<p style="margin: 0 0 16px 0;">我也是这么想的。一上来就想把手头能自动化的事情全交给它。</p>
+<p style="margin: 0 0 16px 0;">用了一段时间，认识往回调了：它本质上还是一个远程执行环境里的 Claude Code 级别能力。核心智能来自后面接的大模型，OpenClaw 提供的是执行层基础设施——消息通道、文件系统访问、shell 权限、定时调度、记忆存储。</p>
+</section>
+
+<!-- 洞察引用卡：能做好 vs 做不好 -->
+<section style="margin-bottom: 24px;">
+<section style="background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%); border-left: 4px solid #4A90A4; border-radius: 0 6px 6px 0; padding: 16px 20px; margin: 0;">
+<p style="margin: 0 0 12px 0; font-size: 16px; color: #2c3e50; line-height: 1.8;">它能做好的事情有共同特征：任务边界清晰、步骤可预定义、容错要求不高。盯盘通知、定时抓取、模板化的内容生成、简单的运维操作。</p>
+<p style="margin: 0; font-size: 16px; color: #2c3e50; line-height: 1.8;">做不好的也有共同特征：需要复杂判断、上下文极长、结果不可预期。</p>
+</section>
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">和直接用 Claude Code 一样，它会犯错、会理解偏、会在复杂场景下走偏。</p>
+<p style="margin: 0 0 16px 0;">区别在于：Claude Code 出问题你就在终端里，能立刻介入。OpenClaw 出问题时你可能在外面，只能在飞书里一条条修正。</p>
+<p style="margin: 0 0 0 0;">这种感觉，用过才知道。</p>
+</section>
+
+<!-- 六、安全 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">六、安全</h2>
+<p style="margin: 0 0 16px 0;">安全绕不开。Cisco 的博客直接管它叫"安全噩梦"，Bitdefender 发现 ClawHub 上近 20% 的技能包含恶意代码，韩国几家大型科技公司已经在内部禁用。有安全研究员在不到两小时内成功劫持了一个 OpenClaw 实例。</p>
+<p style="margin: 0 0 16px 0;">指向很一致：一个需要高系统权限才能发挥全部能力的工具，安全架构在设计之初被低估了。</p>
+<p style="margin: 0 0 16px 0;">我自己没遇到安全事故。但场景也比较克制——VPS 本身是隔离的，不是主力工作机；飞书有身份认证；命令白名单配了，只开放必要权限。</p>
+<p style="margin: 0 0 16px 0;">在企业环境或存放重要数据的机器上跑，确实要谨慎。几条我自己在用的原则：</p>
+</section>
+
+<!-- 结构卡：安全原则 -->
+<section style="background: #f0f4f8; border-radius: 6px; padding: 16px; margin: 0 0 24px 0; font-size: 15px;">
+<p style="margin: 0 0 8px 0;">• 不要在主力工作机上运行，用独立 VPS 或 Docker 容器</p>
+<p style="margin: 0 0 8px 0;">• 命令白名单从最小权限开始，按需开放</p>
+<p style="margin: 0 0 8px 0;">• ClawHub 上的第三方技能先审查代码再装</p>
+<p style="margin: 0;">• 定期跑 <code style="background: #e9ecef; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #c7254e;">openclaw security audit --deep</code></p>
+</section>
+
+<!-- 七、适用 -->
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">七、适用</h2>
+<p style="margin: 0 0 16px 0;">OpenClaw 不是给所有人的。</p>
+<p style="margin: 0 0 16px 0;">它适合对 Agentic AI 有好奇心、能操作 Linux 服务器、有明确的自动化场景、愿意花时间调试的人。</p>
+<p style="margin: 0 0 16px 0;">如果需求主要是写代码，Claude Code 更直接，安全性也更可控。如果要可视化的工作流编排，n8n 更成熟。OpenClaw 的位置在于<strong>把 AI 代理能力和即时通讯打通了</strong>——在手机上、在任何有消息 app 的地方，指挥一台远程机器做事。</p>
+<p style="margin: 0 0 16px 0;">想上手的话：先在本地用 TUI 跑通基本功能，确认模型和消息渠道没问题。然后挑一个简单的任务——比如定时查看服务器状态并通知——做成 skill 跑起来。等跑稳了，再逐步加场景。</p>
+<p style="margin: 0 0 0 0;">不要一上来就想让它自动化一切。</p>
+</section>
+
+<!-- ========== 尾部区域 ========== -->
+<section style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-bottom: 24px;">
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0; line-height: 1.8;">选对场景比什么都重要。</p>
+</section>
+
+<!-- 底部品牌行 -->
+<section style="text-align: center; padding: 16px 0; border-top: 1px solid #e0e0e0;">
+<p style="margin: 0; font-size: 13px; color: #aaa;">Zayen知蓝 | 构建者视角的深度思考</p>
+</section>
+
+</section>
+
+</body>
+</html>

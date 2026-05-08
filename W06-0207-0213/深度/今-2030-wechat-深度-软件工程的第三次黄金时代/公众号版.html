@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>软件工程的第三次黄金时代来了吗？</title>
+</head>
+<body style="max-width: 100%; margin: 0 auto; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.8; color: #555; background: #fff;">
+
+<section style="max-width: 100%; margin: 0 auto;">
+
+<img src="./附件/cover.png" style="width: 66%; display: block; margin: 0 auto 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">去年七月，一家叫 METR 的非营利研究机构做了一个实验。他们找来 16 名资深开源开发者——不是随便找的，是维护着平均百万行代码、运行超过十年的大型项目的那种人——给他们配上当时最好的 AI 编程工具，然后计时。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">结果很有意思。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">开发者自己觉得快了 20%。实测数据显示，他们慢了 19%。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">差不多同一时期，Accenture 做了另一个实验。450 名开发者使用 GitHub Copilot，对照组 200 人。结论：任务完成速度提升 55%，PR 周期从 9.6 天缩短到 2.4 天。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">两个实验都是严格的随机对照，两组数据都是真的。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">看上去矛盾，但它们测的根本不是同一件事。Accenture 的开发者处理的是企业级的常规任务——功能开发、接口对接、标准化流程。METR 的开发者面对的是有十年历史的复杂系统——嵌套的上下文、纠缠的依赖、无法被简单模式匹配覆盖的逻辑。</p>
+
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0;">AI 在软件工程中的真实影响，不是"快还是慢"这种一维问题。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">一、上移</h2>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">2025 年秋天，Gergely Orosz 和 Grady Booch 做了一次对话。Booch 今年 70 多岁，UML 的发明者之一，在软件工程领域耕耘了接近半个世纪。他把软件工程的历史分成三个时代。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">第一个时代，大约从 1940 年代到 1970 年代。核心问题是算法——怎么在有限的算力下把计算跑起来。那时候程序员直接和硬件打交道，每一条指令都要精打细算。Margaret Hamilton 手写阿波罗飞船的导航代码，Dijkstra 证明 goto 语句有害。编程这件事本身还在被定义。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">第二个时代，1970 年代到 2000 年代。硬件不再是瓶颈，复杂性成了新的敌人。面向对象出现了，设计模式出现了，软件架构作为一个独立的学科被提了出来。人们不再纠结"怎么让它跑起来"，开始思考"怎么让它不失控"。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">然后是现在。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Booch 说，第三个时代的核心不是写代码，是<strong style="color: #333;">系统思维</strong>。当你面对的不再是一个程序，而是一整个平台——跨服务、跨团队、跨基础设施——你关注的东西必须再上一层。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">过去两年发生的事情，正在验证这个判断。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">二、4 万名工程师都在用 Cursor</h2>
+
+<img src="./附件/section2-adoption.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">2025 年 10 月，黄仁勋在一次公开活动中提到，NVIDIA 的 4 万名工程师——不只是软件工程师，包括芯片设计师——已经全员切换到 Cursor IDE。不是试点，不是部分团队的尝鲜，是 100% 覆盖。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">微软的情况更直接。Satya Nadella 在去年底透露，微软内部 30% 的代码现在由 AI 生成。GitHub 的数据更夸张：在活跃的 Copilot 用户中，46% 的代码来自 AI 补全。Fortune 100 企业中，90% 已经部署了 Copilot。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这些数字已经没有"实验"的意味了。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">当 AI 能在几秒钟内生成一个标准的 REST API、一套 CRUD 接口、一组单元测试模板，"能写代码"这个能力的市场价值就不可避免地在下降。不是因为它不重要了，而是因为供给突然爆炸了。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">但速度只是一面。另一面是质量。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">三、为什么资深开发者反而变慢了</h2>
+
+<img src="./附件/section3-quality.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">GitClear 是一家做开发者分析的公司。他们在 2025 年发布了一份报告，分析了 1.53 亿行代码。核心发现：使用 AI 编程工具后，<strong style="color: #333;">代码克隆率增长了 4 倍</strong>。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">不是说代码变多了——确实变多了，每月提交数增加了 55%。问题是，代码变多的同时，重构行为在减少。开发者在用 AI 生成的代码填充仓库，但不再花时间去整理、抽象、优化它们。AI 生成的代码看起来风格一致、逻辑清晰，但那种一致性是表面的。它更像是在复制已知的模式，而不是在理解系统然后给出最优解。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">GitClear 的措辞很克制，他们叫它<strong style="color: #333;">"正确性幻觉"</strong>——代码看起来对，但可能逻辑有隐患。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">再回到 METR 的实验。资深开发者用了 AI 反而变慢，原因在采纳率——只有不到 44%。超过一半的 AI 建议被拒绝了。在百万行级的老代码库里，上下文太深、依赖太多、约定太隐晦，AI 给出的建议大量不合用。审查、判断、修正这些建议的时间加起来，反而比自己写更慢。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">一条分界线正在形成。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">一侧是已知模式的世界——标准化的 Web 应用、CRUD 接口、模板化的业务逻辑。AI 在这里如鱼得水。另一侧是系统复杂性的世界——分布式架构、遗留系统的演进、跨团队的技术决策。AI 在这里不但帮不上忙，还可能添乱。</p>
+
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0;">Booch 的说法是：系统复杂性的增长速度，永远快于自动化的覆盖速度。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这是结构性的，不是暂时的。每一次工具的进步都会催生新的系统，而新系统带来的复杂性又超出了工具的覆盖范围。编译器解放了程序员，但催生了操作系统；面向对象管理了复杂性，但催生了分布式系统；AI 能写 CRUD，但接下来的 AI 原生应用、多模态管线、实时推理系统，又是一片全新的复杂性荒野。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">循环往复。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">四、重分配</h2>
+
+<img src="./附件/section4-redistribution.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">如果 AI 只是效率工具，故事到这里就结束了——快的地方更快，难的地方还是难。但现实没这么温和。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">2026 年 1 月，HBR 发了一篇文章，标题直接到有点刺眼：《Companies Are Laying Off Workers Because of AI's Potential, Not Its Performance》。微软最近一轮裁员中，超过 40% 指向软件工程师。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">更安静的变化发生在入口处。研究数据显示，22 到 25 岁、从事 AI 相关领域的大学毕业生，就业率下降了 13%。原因不复杂：过去需要三个初级工程师做的事，现在一个配了 AI 的资深工程师就能完成。Anthropic 的一个案例显示，初级开发者在 Claude 的辅助下，完成集成任务的速度提升了 70%，甚至能处理超出自身经验范围的工作。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">初级开发者能做超出经验范围的工作——这意味着<strong style="color: #333;">"经验"的定义正在被改写</strong>。过去的经验是"我踩过这个坑"，现在更多是"我知道该问什么问题"。AI 填平了执行层面的沟壑，但在判断层面——该不该用微服务、这个依赖值不值得引入、这套架构三年后会不会变成技术债——它什么都给不了你。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">价值没有消失，在重新分配。从"能写出来"到"该不该写"。管部署流水线的工程师确实该紧张——自动化首先吞噬的就是标准化流程。但能理解系统全貌、在模糊地带做判断的人，注意力被释放了，反而能做以前没精力做的事。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">五、摩擦消失之后</h2>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Booch 在对话结尾说了一句话："This is the time to soar."</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">每一次抽象层的上移，都会消灭一批旧的摩擦。汇编到高级语言消灭了手动管理寄存器的摩擦，面向对象消灭了手动管理内存结构的摩擦。现在 AI 正在消灭另一批——查文档、写样板代码、记 API 调用签名。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">摩擦消失后腾出来的不是时间，是注意力。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">过去注意力被"怎么实现"占满了，现在它可以放在"实现什么"和"为什么实现"上。不再花两小时查一个框架的配置写法，而是花两小时想清楚这个系统三个月后会面对什么样的负载模式。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">当然，这只是一种可能。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">另一种同样真实的可能是：摩擦消失后，只是更快地生产了更多平庸的代码。GitClear 的数据已经在暗示这种趋势——产出多了，重构少了，克隆多了。工具给的是一个选择，不是一个保证。</p>
+
+<p style="font-size: 13px; color: #999; margin-top: 40px; text-align: left;">本文受 Gergely Orosz 与 Grady Booch 在 The Pragmatic Engineer 上的对话启发。</p>
+
+</section>
+
+</body>
+</html>

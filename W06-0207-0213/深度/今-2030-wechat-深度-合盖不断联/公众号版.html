@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出门合盖，三秒连回：Mac 远程开发的 frp + Cloudflare 方案</title>
+</head>
+<body>
+
+<section style="max-width: 100%; box-sizing: border-box; padding: 28px 10px; background-color: #f3f2f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #3a3a3e; line-height: 1.8; font-size: 15px;">
+
+<section style="max-width: 680px; margin: 0 auto;">
+
+<!-- ========== 头部品牌动图 ========== -->
+<section style="margin-bottom: 24px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/wechat-header-article.gif" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 封面区域 ========== -->
+<section style="text-align: center; padding: 40px 24px 34px 24px; margin-bottom: 28px; background-color: #ffffff; border-radius: 10px; border: 1px solid #e8e6e2; border-top: 3px solid #c0503e;">
+<p style="display: inline-block; margin: 0 0 16px 0; font-size: 11px; color: #c0503e; letter-spacing: 3px; font-weight: 600; padding: 3px 14px; border: 1px solid #e8ccc8; border-radius: 20px; background-color: #faf4f3;">ZAYEN知蓝 · 深度</p>
+<h1 style="font-size: 24px; color: #1a1a1e; margin: 0 0 12px 0; font-weight: 700; line-height: 1.45;">出门合盖，三秒连回：Mac 远程开发的 frp + Cloudflare 方案</h1>
+<p style="font-size: 12px; color: #a0a0a0; margin: 0;">文 / Zayen知蓝</p>
+</section>
+
+<!-- 封面配图 -->
+<section style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/cover.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 引言 ========== -->
+<section style="padding: 20px 24px; margin-bottom: 26px; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #c0503e;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">在咖啡馆掏出 iPad，打开终端，三秒后进入家里 Mac 的工作目录。工具链、本地跑的 AI 工作流、环境变量，一个没少。这篇文章讲的就是怎么做到这件事。</p>
+</section>
+
+<!-- ========== 一、问题 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">一、问题</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">移动设备和桌面端之间有一道坎。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">不是屏幕大小，也不全是键盘手感。真正卡住的地方在于：你的工作流跑不出本机。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">拿我自己的情况说——Mac 上搭了一整套内容创作管线：从 Notion 选题库拉取待写主题，Claude Code 配合自定义 skill 生成文章，md2wechat 转换成公众号格式，一键推送到微信草稿箱。图片生成、AI 去痕、小红书适配、新闻日报，全是本地脚本和环境变量串起来的。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">桌面上跑得顺畅。一出门，iPad 上只剩一个空壳终端。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Notion 可以网页访问，Claude 可以网页对话，但那些本地部署的 skill、Python 脚本、存在 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">~/.zshrc</code> 里的 API Key——全留在家里的 Mac 上。</p>
+</section>
+
+<!-- 金句卡片 -->
+<section style="margin-bottom: 24px;">
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">移动端不是没有生产力。是生产力的根在桌面端</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">问题就变成了：怎么在外面也能摸到那台 Mac？</p>
+</section>
+
+<!-- ========== 二、选型 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">二、选型</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">远程连回家里的电脑，技术上就是内网穿透。Mac 藏在路由器后面，没有公网 IP，外面的设备直接连不进去。需要一个中间人帮忙打通。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">方案分两类。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e;">商业服务</strong>——cpolar、NATAPP、花生壳。注册即用，有免费额度，但本质是把端口托管给别人的服务器。安全性取决于你对服务商的信任。花生壳是上市公司，有爆破防护和 IP 白名单，相对可控。cpolar 和 NATAPP 都是小团队，功能基础但够用。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e;">开源方案</strong>——Tailscale、frp、Cloudflare Tunnel。Tailscale 是虚拟组网方案，会跟现有的网络工具冲突，日常常驻不太现实。Cloudflare Tunnel 安全性最高，SSH 端口完全不暴露在公网，但远程设备也得装 cloudflared 客户端。frp 最朴素，TCP 端口直接转发，任何 SSH 客户端填个 IP 加端口就能连。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">最终两个都配了。Cloudflare Tunnel 作为浏览器 SSH 的备用通道，frp 做主力日常连接。</p>
+</section>
+
+<!-- 配图：选型 -->
+<section style="margin-bottom: 26px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/section1-choice.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 三、前置 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">三、前置</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">在折腾网络之前，先解决一个物理问题：Mac 合盖了还能不能连？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">macOS 的电源管理有两个关键设置。<code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">sleep</code>——系统多久后进入睡眠；<code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">AppleClamshellCausesSleep</code>——合盖是否触发睡眠。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">在"系统设置 → 电池 → 选项"里，把"接通电源时防止自动进入睡眠"打开。然后终端检查一下：</p>
+
+<!-- 代码块 -->
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">pmset -g &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 确认 sleep = 0</p>
+<p style="margin: 0; color: #3a3a3e;">ioreg -r -k AppleClamshellState &nbsp;# 确认 AppleClamshellCausesSleep = No</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">两个条件都满足，插电合盖就不会断联。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">断电是唯一的风险。电池模式下 Mac 会在一分钟内进入睡眠。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">保持插电是硬前提</strong>。</p>
+</section>
+
+<!-- ========== 四、Cloudflare Tunnel ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">四、Cloudflare Tunnel</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Cloudflare Tunnel 的思路是反向的——不是从外面打进来，而是 Mac 主动跟 Cloudflare 的边缘节点建立一条加密隧道。外面的请求通过 Cloudflare 转进来，SSH 端口从来不直接面对公网。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">配置不复杂。装 cloudflared，登录，创建隧道，绑个子域名：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">brew install cloudflared</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">cloudflared tunnel login</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">cloudflared tunnel create macbook-ssh</p>
+<p style="margin: 0; color: #3a3a3e;">cloudflared tunnel route dns macbook-ssh ssh.yourdomain.com</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">写一份配置文件 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">~/.cloudflared/config.yml</code>：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">tunnel: &lt;你的隧道ID&gt;</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">credentials-file: ~/.cloudflared/&lt;隧道ID&gt;.json</p>
+<p style="margin: 0 0 8px 0;">&nbsp;</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">ingress:</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">&nbsp;&nbsp;- hostname: ssh.yourdomain.com</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">&nbsp;&nbsp;&nbsp;&nbsp;service: ssh://localhost:22</p>
+<p style="margin: 0; color: #3a3a3e;">&nbsp;&nbsp;- service: http_status:404</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">注册为系统服务后，在 Cloudflare Zero Trust 控制台给域名加一层 Access 策略——只允许你的邮箱通过 OTP 验证，再开启 Browser Rendering 选 SSH。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">效果：任何设备打开 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">https://ssh.yourdomain.com</code>，邮箱验证后直接进入网页终端。不用装客户端。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但也有局限。想用 Termius 这类原生 SSH 客户端连接，对方设备也得装 cloudflared 做代理。Cloudflare Tunnel 的流量不是原始 TCP，而是封装在它自己的协议里，普通 SSH 客户端解不开。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">浏览器里用，挺好。但我更想要原生终端的手感。</p>
+</section>
+
+<!-- ========== 五、frp ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">五、frp</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">frp 做的事情简单得多：在一台有公网 IP 的服务器上跑 frps（server），Mac 上跑 frpc（client），TCP 端口直接转发。外面的设备连服务器的某个端口，流量被原样送到 Mac 的 22 端口。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">任何 SSH 客户端——Termius、PuTTY、系统自带的 ssh 命令——填上 IP 和端口就能连。不需要额外的代理程序。</p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #c0503e;">服务端</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">我用 OpenClaw 来自动化 VPS 上的部署。把 frps 的安装步骤丢给它，几分钟跑完：下载二进制、写配置、创建 systemd 服务、设置开机自启。手动操作的部分只有一个——去云服务商控制台的安全组里放行端口。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">frps 配置很短：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">bindPort = 7000</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">allowPorts = [</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">&nbsp;&nbsp;{ start = 6000, end = 6010 }</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">]</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">auth.method = "token"</p>
+<p style="margin: 0; color: #3a3a3e;">auth.token = "&lt;一个随机强密码&gt;"</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">7000 是 frp 自己的通信端口，6000 用来转发 SSH。token 防止别人往你的 frps 上挂隧道。</p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #c0503e;">客户端</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Mac 上装 frpc：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0; color: #3a3a3e;">brew install frpc</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">配置 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">/opt/homebrew/etc/frp/frpc.toml</code>：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">serverAddr = "&lt;你的 VPS IP&gt;"</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">serverPort = 7000</p>
+<p style="margin: 0 0 8px 0;">&nbsp;</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">auth.method = "token"</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">auth.token = "&lt;跟服务端一样的密码&gt;"</p>
+<p style="margin: 0 0 8px 0;">&nbsp;</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">[[proxies]]</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">name = "macbook-ssh"</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">type = "tcp"</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">localIP = "127.0.0.1"</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">localPort = 22</p>
+<p style="margin: 0; color: #3a3a3e;">remotePort = 6000</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">启动并设为开机自启：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0; color: #3a3a3e;">brew services start frpc</p>
+</section>
+
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">从此，任何地方打开 SSH 客户端，连 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">&lt;VPS IP&gt;:6000</code>，就是家里的 Mac。</p>
+</section>
+
+<!-- ========== 六、延迟 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">六、延迟</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">frp 配好后从 Termius 连了进去。能用，但每个按键有大约半秒的延迟。打一个字，等一下才出现。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">原因直接：VPS 在新加坡。按键从手边设备发到新加坡，再从新加坡转到国内的 Mac，响应原路返回。中国到新加坡单程 50-80ms，一个来回加上 frp 转发开销，体感 300-500ms。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">解法也直接：换一台国内 VPS。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">在阿里云上海开了一台轻量服务器，同样用 OpenClaw 部署 frps。改了 Mac 上 frpc 的 <code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">serverAddr</code>，重启服务。</p>
+
+<!-- 引用卡片 -->
+<section style="padding: 18px 22px; margin: 0 0 24px 0; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #d8a8a0;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">延迟立刻从"能用但难受"变成"几乎感觉不到"。国内到国内通常 10-30ms，打字跟本地终端基本没区别。</p>
+</section>
+
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">VPS 的地域选择比配置本身更影响体验。你和 Mac 都在国内，<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">中转服务器选国内节点</strong>。</p>
+</section>
+
+<!-- ========== 七、加固 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">七、加固</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">frp 把 SSH 端口暴露在了公网上。任何人知道 VPS IP 和端口，就可以尝试连接。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">macOS 的 SSH 默认允许密码登录，密码可以被暴力破解。要做两件事。</p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e;">第一，用 SSH Key 替代密码。</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Mac 上生成密钥对（如果还没有的话）：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0; color: #3a3a3e;">ssh-keygen -t ed25519</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">把公钥加入授权列表：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0; color: #3a3a3e;">cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">私钥导入到远程设备的 SSH 客户端。Termius 的操作是进入 Keychain → Add Key，粘贴私钥内容。</p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e;">第二，关闭密码登录。</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Mac 上创建一个 SSH 配置文件：</p>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">sudo tee /etc/ssh/sshd_config.d/200-no-password.conf &lt;&lt; 'EOF'</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">PasswordAuthentication no</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3e;">KbdInteractiveAuthentication no</p>
+<p style="margin: 0 0 8px 0; color: #3a3a3e;">EOF</p>
+<p style="margin: 0; color: #3a3a3e;">sudo launchctl kickstart -k system/com.openssh.sshd</p>
+</section>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这只影响 SSH 远程连接。本地开机密码、解锁屏幕、sudo 走的是 macOS 自己的认证系统，不受影响。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">关闭密码登录后，没有私钥的人连 SSH 的门都摸不到。暴力破解直接失效。</p>
+</section>
+
+<!-- 配图：安全 -->
+<section style="margin-bottom: 26px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/section2-security.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 八、最终状态 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">八、最终状态</h2>
+
+<!-- 数据高亮卡 -->
+<section style="padding: 18px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">配置清单</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">Mac 电源 → 插电合盖不睡眠</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">SSH 服务 → 运行中，仅允许密钥认证</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">Cloudflare Tunnel → 浏览器 SSH 备用通道</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">frp 隧道 → 阿里云上海中转，开机自启</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">默认目录 → SSH 登录自动进入工作目录</p>
+</section>
+
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">出门前把 Mac 合上，插着电。到了咖啡馆，iPad 打开 Termius，三秒连上。<code style="background: #f0ebe9; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0503e;">ls</code> 一下，文件都在。跑一条 Claude Code 命令，skill、脚本、环境变量全部就绪。</p>
+</section>
+
+<!-- 互动引导 -->
+<section style="margin-bottom: 24px;">
+<p style="margin: 0; font-size: 14px; color: #a0a0a0; line-height: 1.8;">如果你也在折腾远程开发环境，欢迎转发给团队里用 Mac 的同事。你的方案是什么？评论区聊聊。</p>
+</section>
+
+<!-- 结尾分隔 -->
+<section style="padding: 12px 0; margin-bottom: 6px; text-align: center;">
+<section style="display: inline-block; width: 36px; height: 2px; background-color: #c0503e; border-radius: 1px;"></section>
+</section>
+
+<!-- 底部品牌行 -->
+<section style="padding: 16px 0; text-align: center;">
+<p style="margin: 0 0 3px 0; font-size: 12px; color: #a0a0a0;">文 / Zayen知蓝</p>
+<p style="margin: 0; font-size: 11px; color: #c0c0c0; letter-spacing: 1px;">构建者视角的深度思考</p>
+</section>
+
+</section>
+</section>
+
+</body>
+</html>

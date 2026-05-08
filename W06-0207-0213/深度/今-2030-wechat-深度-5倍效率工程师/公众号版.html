@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用了半年AI编程，为什么你只快了20%？</title>
+</head>
+<body style="max-width: 100%; margin: 0 auto; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.8; color: #555; background: #fff;">
+
+<section style="max-width: 100%; margin: 0 auto;">
+
+<img src="./附件/cover.png" style="width: 66%; display: block; margin: 0 auto 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">一个做了十年后端的朋友，去年初开始用 Copilot。半年后问他感觉如何，回答是："补全确实快了，但总体效率嘛……可能快了 20%？"</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">20%</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这不是个例。Augment Code 在一份 2026 年的落地报告中提到，多数团队引入 AI 编程工具 6 个月后，生产力提升集中在 15-25% 区间。跟厂商宣传的"10x"差了一个数量级。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">差距出在哪？不在工具本身。在于拿到新工具之后，多数人只是把它塞进了旧的工作方式里。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">一、错位</h2>
+
+<img src="./附件/section1-mismatch.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">想象一个场景：IDE 打开着，Copilot 已经激活，你开始写一个新的 API endpoint。写几行，Tab 补全一段，看看没问题，继续。遇到边界条件，手动改一下补全的结果，跑测试，修 bug。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">整个过程和没有 AI 之前相比，变化不大。打字少了一些，思考方式一模一样。依然在逐行推进，依然一个函数一个函数地写。</p>
+
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0;">工具换了。工作方式没换。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这有点像 1900 年代的工厂。电力已经引入，但工厂布局还是按蒸汽机时代设计的——所有机器围绕一个中央动力轴排列，因为蒸汽机只能通过皮带和传动杆分配动力。效率提升微乎其微。直到有人想通了一件事：电力的意义不是替换蒸汽机，是让每台机器拥有独立电机，位置按流程优化，不再被物理传动轴限制。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">跃升发生在重新设计工作流的时候</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">AI 编程工具面对的是同样的局面</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">二、编排</h2>
+
+<img src="./附件/section2-orchestrate.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Google Chrome 团队的工程负责人 Addy Osmani 在 2025 年底写过一篇长文，描述他如何用 Agent 重构日常开发。他的说法很直接：开发者的角色正在从"逐行实现者"变成<strong style="color: #333;">"任务编排者"</strong>。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">他的工作方式字面意义上变了——不再是"打开文件、定位代码、手写逻辑、调试"的循环，而是"拆分任务、分配给 Agent、设定检查点、审查产出"。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">区别在结构</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">传统方式下，一个开发者同时承担规划、实现、测试、调试四种角色，在它们之间频繁切换。每次切换都有认知成本——一个经典研究发现，程序员被打断后平均需要 <strong style="color: #333;">23 分钟</strong>才能恢复到之前的深度思考状态。而在一天的工作里，这样的切换可能发生十几次。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Agent 工作流改变的是角色分配。规划是人做的，实现和初步测试交给 Agent，人负责审查和方向决策。这不是"让 AI 帮你写代码"——是把开发过程拆解成可分工的模块，然后重新组装。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">而且，Agent 可以并行</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">一个 Agent 写功能代码的同时，另一个在写对应的测试，第三个在做 code review。人类开发者不可能同时做三件需要深度专注的事。但 Agent 工作流里，并行是默认状态。瓶颈不再是执行速度，是调度能力。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">三、节奏</h2>
+
+<img src="./附件/section3-rhythm.png" style="width: 66%; display: block; margin: 24px auto; border-radius: 8px;" />
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">具体怎么做？</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">综合 Osmani 的实践、Devin 团队的 Agent 101 指南，以及几家企业的落地案例，一套可复用的模式开始浮现。它分四个阶段，但重点不是步骤本身，而是人和 Agent 之间的信任边界在每个阶段如何移动。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;"><strong style="color: #333;">第一阶段：规划先行。</strong>写任何代码之前，先让 Agent 生成一份 mini design doc。不需要完美，但必须把任务拆到足够小——每个单元对应一个函数或一个模块。有人称这是"15 分钟走完一个瀑布流"：需求澄清、接口定义、任务拆解，一次对话搞定。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这一步看起来慢了，实际上是整个流程中 ROI 最高的环节。独立开发者 Arvid Kahl 追踪了自己的 AI 编程时间分配，结论是 <strong style="color: #333;">40/20/40</strong>——40% 准备上下文和指令，20% 等 Agent 生成，40% 审查和修正。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">这和直觉相反。多数人以为 AI 编程意味着更多时间让 AI 写。高效的做法恰恰相反：更多时间花在告诉 AI 该写什么，以及检查它写得对不对。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;"><strong style="color: #333;">第二阶段：增量执行。</strong>每次只喂一个小任务。不要一口气把整个项目扔给 Agent 说"帮我实现"——这几乎注定失败。每个任务在独立 git 分支上执行，改动可追踪、可回滚。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">为什么要拆这么碎？因为 <strong style="color: #333;">Agent 的错误具有传染性</strong>。第三步如果写错了，后面所有依赖这一步的代码都会在错误基础上继续堆叠。到你发现问题的时候，可能已经叠了五六层。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;"><strong style="color: #333;">第三阶段：检查点循环。</strong>规划 → 实现 → 测试 → 修复 → 审查，完成一轮才进入下一个任务。不是流水线，更像呼吸——吸一口，确认稳了，再走下一步。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Devin 团队建议把这个循环绑定到 CI/CD 上。Agent 提交代码后自动跑测试套件，通过了才能进入下一轮。人在这个环节的角色是决策者，不需要逐行审代码，但要判断方向是否正确、接口设计是否合理。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;"><strong style="color: #333;">第四阶段：渐进放权。</strong>这是多数人跳过的部分，也是最影响最终效果的部分。Agent 的使用不应该一步到位。Augment Code 的实施指南里描述了一条路径：先让 Agent 做分析和观察（只读权限），再让它处理安全的自动化任务（格式化、lint、依赖升级），然后是引导式提案（Agent 建议改动，人审批），最后才是端到端自主执行。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">每一步都是在校准信任</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">四、边界</h2>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">不过这套流程有个不怎么被提到的前提。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">Augment Code 报告里有组数据：代码审查时间从平均 18 小时降到 6 小时，跨仓库协作效率提升 75%。数字亮眼。但仔细看会发现，这些团队无一例外都有成熟的 CI/CD 管线、高测试覆盖率、规范的仓库结构。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">没有这些基础，很多环节跑不起来。检查点循环需要自动化测试，增量执行需要分支管理规范，渐进放权需要可靠的持续集成。Agent 工作流不是凭空运转的，它是建立在工程基础设施之上的一层。基础设施越好，Agent 能做的事越多。反过来也成立。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">还有一类场景，Agent 在目前阶段做不好。凌晨两点，告警响了，你需要在三个微服务之间追踪一个竞态条件。Agent 可以帮你搜日志、读代码、定位调用链。但"问题出在 Service A 和 Service B 的交互时序上，只有在高并发且缓存失效时才复现"——这个判断需要对系统的整体理解，需要把多条线索串起来，这仍然是人的工作。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;"><strong style="color: #333;">Agent 放大的是结构化任务的执行效率。</strong>非结构化的判断、跨系统的关联推理、需求背后没说出口的业务意图，这些暂时还在人的领地里。</p>
+
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">五、起步</h2>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">回到最初那个问题。同样的工具，为什么有人快 5 倍，有人只快 20%？</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">不在工具配置或 prompt 技巧。在于是否重新设计了工作方式本身。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">把 Agent 当更快的代码补全，它就只能帮你省打字时间。把它当可以分配任务的执行单元，开发过程的结构就变了。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">也不需要一次性推翻现有习惯。一个可以从明天开始的改变：写代码之前，先花五分钟让 Agent 生成一份任务规划。把要做的事拆成四五个小步骤，每步独立可验证。然后一步一步喂给它，每步确认后再走下一步。</p>
+
+<section style="margin: 48px 0 32px 0; padding: 32px 24px; text-align: center;">
+<p style="font-size: 14px; color: #4A90A4; letter-spacing: 6px; margin: 0 0 16px 0;">— — —</p>
+<p style="font-size: 22px; color: #333; font-weight: 700; margin: 0; line-height: 1.6;">电力的意义从来不是替换蒸汽机</p>
+</section>
+
+<p style="font-size: 13px; color: #999; margin-top: 40px; text-align: left;">本文受 Stephen Palmer 的「The 5x Engineer: Agentic Coding Workflow for Speed and Quality」启发，部分框架参考 Addy Osmani、Augment Code 及 Devin 团队的公开实践。</p>
+
+</section>
+
+</body>
+</html>

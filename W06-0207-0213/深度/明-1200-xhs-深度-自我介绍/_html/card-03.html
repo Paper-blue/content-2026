@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Regular.ttf'); font-weight: 400; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Medium.ttf'); font-weight: 500; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Bold.ttf'); font-weight: 700; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Black.ttf'); font-weight: 900; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  height: 1440px;
+  overflow: hidden;
+  background: #0a0e27;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+}
+
+.canvas {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  background: linear-gradient(145deg, #0a0e27 0%, #0f1635 20%, #141e45 40%, #0d2847 60%, #0a2a3a 80%, #0e1a2e 100%);
+  overflow: hidden;
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+.blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,132,244,0.4) 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(138,79,255,0.35) 0%, transparent 70%); top: 300px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0,200,200,0.3) 0%, transparent 70%); bottom: 100px; left: 100px; }
+.blob-4 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,100,255,0.2) 0%, transparent 70%); bottom: -50px; right: 100px; }
+
+.glass-orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+.orb-1 { width: 200px; height: 200px; top: 120px; right: 60px; }
+.orb-2 { width: 120px; height: 120px; bottom: 200px; left: 60px; }
+
+.ghost-text {
+  position: absolute;
+  top: 40px; right: 20px;
+  font-size: 200px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.04);
+  line-height: 1.15;
+  z-index: 5;
+  letter-spacing: -5px;
+  text-align: right;
+}
+
+.content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px;
+  z-index: 10;
+}
+
+.glass-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 80px 64px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.cta-emoji {
+  font-size: 64px;
+  margin-bottom: 36px;
+}
+
+.cta-title {
+  font-size: 52px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.cta-name {
+  font-size: 42px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #38b4ff, #8a4fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 52px;
+}
+
+.divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, rgba(56,180,255,0.8), rgba(138,79,255,0.6));
+  border-radius: 2px;
+  margin: 0 auto 48px auto;
+}
+
+.cta-sub {
+  font-size: 36px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+  margin-bottom: 52px;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(56,180,255,0.2), rgba(138,79,255,0.2));
+  border: 1px solid rgba(56,180,255,0.3);
+  border-radius: 100px;
+  padding: 22px 56px;
+  font-size: 34px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.cta-hint {
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 1px;
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="glass-orb orb-1"></div>
+  <div class="glass-orb orb-2"></div>
+  <div class="ghost-text">GO<br>GO<br>GO</div>
+
+  <div class="content">
+    <div class="glass-card">
+      <div class="cta-emoji">🚀</div>
+      <div class="cta-title">感兴趣的话</div>
+      <div class="cta-title" style="margin-bottom: 16px;">一起跟着 AI 行业走</div>
+      <div class="cta-name">@Zayen知蓝</div>
+      <div class="divider"></div>
+      <div class="cta-sub">没有承诺日更，但会持续分享<br>有问题随时评论区聊</div>
+      <div class="cta-btn">关注一下 看看再说</div>
+      <div class="cta-hint">Build in Public · 持续进行中</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

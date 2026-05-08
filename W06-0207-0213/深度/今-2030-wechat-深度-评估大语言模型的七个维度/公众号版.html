@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM 选型避坑指南：为什么 MMLU 高分≠好用？</title>
+</head>
+<body style="max-width: 100%; margin: 0 auto; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.8; color: #555; background: #fff;">
+
+<section style="max-width: 100%; margin: 0 auto;">
+
+<!-- 头图 -->
+<img src="./附件/cover.png" style="width: 66%; display: block; margin: 0 auto 24px auto; border-radius: 8px;" />
+
+<!-- 开头 -->
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">选择 LLM 时，很多人会直接看排行榜：MMLU 分数最高的就是最好的。但实际使用中经常会遇到这种情况：某个模型在 MMLU 上得分 85，另一个只有 78，但在代码生成任务中，后者的表现明显更好。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">原因在于：<strong style="color: #333;">MMLU 测的是知识记忆能力，而代码生成需要的是结构化输出能力</strong>。这是两种不同的认知机制。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">单一基准只能反映模型在某个维度上的表现。要准确评估一个 LLM 是否适合你的应用场景，需要组合使用 7 种不同类型的基准。</p>
+
+<!-- 7种基准类型 -->
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">7种基准类型</h2>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">1. 通用能力基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：MMLU（Massive Multitask Language Understanding）、HellaSwag</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：模型的知识广度。MMLU 覆盖 57 个学科，从高中物理到法律常识，题目为多选题形式。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：需要处理多领域问题的通用助手、知识问答系统。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：题目为封闭式选择题，无法评估开放式回答质量；测的是"知道什么"，而非"能做什么"；对于专业领域任务，通用能力分数参考价值有限。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">2. 推理能力基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：GSM8K（小学数学推理）、MATH（高等数学）</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：多步推导能力。模型能否将复杂问题拆解成推理步骤，并保持逻辑链条的完整性。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：需要逻辑推理的任务，如数据分析、策略规划、复杂问题求解。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：数学推理不等于通用推理能力；某些模型通过记忆题型而非真正推理获得高分；推理步骤的可解释性难以量化。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">3. 代码能力基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：HumanEval（Python 函数生成）、MBPP（基础 Python 编程）</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：将自然语言需求转换为可执行代码的能力，包括语法正确性、边界条件处理、错误处理。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：代码助手、自动化脚本生成、代码审查工具。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：测试集规模较小（HumanEval 仅 164 题）；主要测试独立函数，难以评估复杂系统的代码组织能力；不同编程语言的支持差异大。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">4. 长文本处理基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：LongBench、RULER</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：在长上下文（10k-100k tokens）中准确定位和利用信息的能力。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：文档分析、长对话、代码库理解、学术论文处理。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：很多模型号称支持 128k 上下文，但有效处理长度可能只有 20k；长文本的"遗忘"现象难以系统化测试；计算成本随上下文长度指数增长。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">5. 多模态能力基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：VQA（视觉问答）、COCO Caption（图像描述）</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：跨模态信息理解和整合能力，如图片内容识别、图文关联、视频理解。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：文档 OCR、设计稿解读、视频字幕生成、图像分析。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：图像理解深度有限，难以处理抽象视觉概念；视频和音频的测试集相对不成熟；多模态输出能力（如生成图片）缺乏标准化评估。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">6. 安全对齐基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表测试</strong>：TruthfulQA（真实性）、CrowS-Pairs（偏见检测）</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：模型是否会编造事实、输出有害内容、表现出系统性偏见。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：所有面向用户的生产环境应用。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：对抗性测试无法覆盖所有有害输出模式；不同文化背景下的"有害内容"定义不同；模型可能在测试集上表现良好，但在真实场景中仍有安全风险。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">7. 效率基准</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">代表指标</strong>：推理延迟（Latency）、吞吐量（Throughput）、成本（Cost per token）</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">测什么</strong>：工程可行性边界。处理单个请求的时间、并发处理能力、API 调用成本。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">适用场景</strong>：所有需要大规模部署的应用。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">局限性</strong>：效率与模型大小、硬件环境强相关；延迟和吞吐量存在权衡关系；成本随供应商定价策略变化。</p>
+
+<!-- 如何组合使用基准 -->
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">如何组合使用基准</h2>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 20px;">单独使用任何一种基准都不够，关键在于根据应用场景确定<strong style="color: #333;">基准组合和权重分配</strong>。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">场景分析法</h3>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;"><strong style="color: #333;">第一步：明确核心能力</strong></p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">不同应用对能力的要求是非对称的。</p>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+<thead>
+<tr style="background: #f8f9fa;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; color: #333;">应用类型</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; color: #333;">核心能力</th>
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; color: #333;">次要能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;">客服 Bot</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">安全对齐（40%）、通用能力（30%）</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">推理（20%）、效率（10%）</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;">代码助手</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">代码能力（50%）、推理（20%）</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">通用能力（20%）、效率（10%）</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;">研究工具</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">推理（40%）、长文本（30%）</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">通用能力（20%）、效率（10%）</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;">文档分析</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">长文本（40%）、多模态（30%）</td>
+<td style="padding: 12px; border: 1px solid #dee2e6;">通用能力（20%）、效率（10%）</td>
+</tr>
+</tbody>
+</table>
+
+<p style="font-size: 16px; color: #555; margin-top: 20px; margin-bottom: 12px;"><strong style="color: #333;">第二步：设定最低门槛</strong></p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">即使某个能力权重低，也要设定最低门槛。原因是能力之间存在耦合关系。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">例如代码助手：代码能力是核心，但推理能力太弱会导致生成的代码逻辑混乱；通用能力太差会导致无法理解领域术语；安全对齐不足可能生成有安全漏洞的代码。</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 12px;">建议为每个维度设定最低及格线：</p>
+<ul style="font-size: 16px; color: #555; margin-bottom: 20px; padding-left: 20px;">
+<li style="margin-bottom: 8px;">核心能力：≥ 85 分</li>
+<li style="margin-bottom: 8px;">次要能力：≥ 70 分</li>
+<li style="margin-bottom: 8px;">其他能力：≥ 60 分</li>
+</ul>
+
+<p style="font-size: 16px; color: #555; margin-top: 20px; margin-bottom: 12px;"><strong style="color: #333;">第三步：加权评分</strong></p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">根据权重计算综合得分：<code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 14px;">综合得分 = Σ(基准得分 × 权重)</code></p>
+
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0;">只要有任何一项低于最低门槛，就直接排除，即使综合得分很高。</p>
+
+<!-- 实用建议 -->
+<h2 style="font-size: 20px; color: #333; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 3px solid #4A90A4;">实用建议</h2>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">1. 建立自己的评估矩阵</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">不要直接套用公开榜单的排名。根据你的具体应用场景，建立一个评估矩阵。</p>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+<thead>
+<tr style="background: #f8f9fa;">
+<th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; color: #333;">基准类型</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #333;">权重</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #333;">最低门槛</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #333;">模型A</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #333;">模型B</th>
+<th style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #333;">模型C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;">通用能力</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">20%</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">70</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">85</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">78</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">82</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;">推理能力</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">40%</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">80</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">88</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">90</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #dc3545;">75 ❌</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;">代码能力</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">30%</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">75</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">80</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">85</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">88</td>
+</tr>
+<tr style="background: #f8f9fa;">
+<td style="padding: 12px; border: 1px solid #dee2e6;">效率</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">10%</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">-</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">1.2s</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">2.5s</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">0.8s</td>
+</tr>
+<tr>
+<td style="padding: 12px; border: 1px solid #dee2e6;"><strong>综合得分</strong></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">-</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">-</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;"><strong>84.6</strong></td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6; color: #dc3545;"><strong>86.5</strong> ❌</td>
+<td style="padding: 12px; text-align: center; border: 1px solid #dee2e6;">排除</td>
+</tr>
+</tbody>
+</table>
+
+<p style="font-size: 14px; color: #999; margin-top: 12px;">模型 B 虽然综合得分最高，但推理能力未达最低门槛，应该排除。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">2. 持续监控，而非一次性测试</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">LLM 是动态系统。供应商会持续更新模型（微调、对齐、知识库更新），导致同一个模型在不同时间的表现可能完全不同。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">在生产环境中埋点，记录真实场景的表现；每月重新评估关键基准；追踪失败案例，分析是哪个维度的能力不足。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">3. 关注最坏情况，而非平均表现</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">基准测试通常报告平均分数，但在生产环境中，最坏情况的影响可能远大于平均表现。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">例如：代码助手生成 100 次代码，99 次正确，1 次生成了有 SQL 注入漏洞的代码。这 1 次的成本可能抵消前 99 次的价值。</p>
+
+<h3 style="font-size: 18px; color: #4A90A4; margin: 24px 0 12px 0;">4. 从真实用户反馈中迭代权重</h3>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">初始权重分配基于假设，需要从真实数据中验证和调整。</p>
+<p style="font-size: 16px; color: #555; margin-bottom: 16px;">根据应用场景设定初始权重 → 上线后收集用户反馈 → 分析失败案例 → 调整权重，重新评估候选模型 → A/B 测试验证调整效果。</p>
+
+<!-- 结尾金句 -->
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 32px 0; padding: 20px 24px; background: linear-gradient(135deg, #4A90A4 0%, #5BA3B5 100%); color: #fff; border-radius: 8px; text-align: center;">没有任何单一基准能全面评估 LLM，只有组合使用多种基准，才能做出准确的选型决策。</p>
+
+<!-- 参考引用 -->
+<p style="font-size: 13px; color: #999; margin-top: 40px; text-align: left;">本文受 Towards AI 的「The 7 Essential Types of LLM Benchmarking」启发。</p>
+
+</section>
+
+</body>
+</html>

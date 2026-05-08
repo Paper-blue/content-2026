@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Regular.ttf'); font-weight: 400; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Medium.ttf'); font-weight: 500; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Bold.ttf'); font-weight: 700; }
+@font-face { font-family: 'HarmonyOS Sans SC'; src: url('/Users/paperblue/Library/Fonts/HarmonyOS_Sans_SC_Black.ttf'); font-weight: 900; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  height: 1440px;
+  overflow: hidden;
+  background: #0a0e27;
+  font-family: 'HarmonyOS Sans SC', sans-serif;
+}
+
+.canvas {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  background: linear-gradient(145deg, #0a0e27 0%, #0f1635 20%, #141e45 40%, #0d2847 60%, #0a2a3a 80%, #0e1a2e 100%);
+  overflow: hidden;
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+.blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,132,244,0.4) 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(138,79,255,0.35) 0%, transparent 70%); top: 300px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0,200,200,0.3) 0%, transparent 70%); bottom: 100px; left: 100px; }
+.blob-4 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,100,255,0.2) 0%, transparent 70%); bottom: -50px; right: 100px; }
+
+.ghost-text {
+  position: absolute;
+  top: 50px; right: -30px;
+  font-size: 180px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.04);
+  line-height: 1;
+  z-index: 5;
+  letter-spacing: -5px;
+}
+
+.content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 48px 48px 48px;
+  z-index: 10;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.top-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 10px 24px;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+}
+.top-watermark {
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: 2px;
+}
+.top-page {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+.glass-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 56px 52px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 26px;
+  font-weight: 600;
+  color: rgba(56, 180, 255, 0.9);
+  letter-spacing: 4px;
+  margin-bottom: 36px;
+}
+
+.section-title {
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  margin-bottom: 48px;
+}
+
+.content-items {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.content-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px 36px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.item-emoji {
+  font-size: 36px;
+  line-height: 1;
+  min-width: 44px;
+  margin-top: 2px;
+}
+
+.item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-title {
+  font-size: 34px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.item-desc {
+  font-size: 28px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="ghost-text">WHAT</div>
+
+  <div class="content">
+    <div class="top-bar">
+      <div class="top-label">CONTENT</div>
+      <div class="top-watermark">@Zayen知蓝</div>
+      <div class="top-page">2/3</div>
+    </div>
+
+    <div class="glass-card">
+      <div class="section-label">📋 WHAT I SHARE</div>
+      <div class="section-title">你会在这看到什么</div>
+
+      <div class="content-items">
+        <div class="content-item">
+          <div class="item-emoji">📰</div>
+          <div class="item-body">
+            <div class="item-title">AI 行业日报</div>
+            <div class="item-desc">每天从几百条信息里筛出值得聊的几条，附上 Builder 视角的思考</div>
+          </div>
+        </div>
+        <div class="content-item">
+          <div class="item-emoji">🔬</div>
+          <div class="item-body">
+            <div class="item-title">深度拆解</div>
+            <div class="item-desc">看到有意思的产品、技术、商业逻辑，会花时间拆开来聊</div>
+          </div>
+        </div>
+        <div class="content-item">
+          <div class="item-emoji">🧪</div>
+          <div class="item-body">
+            <div class="item-title">在做的事</div>
+            <div class="item-desc">正在用 AI 搭什么、踩了什么坑、想通了什么——公开记录</div>
+          </div>
+        </div>
+        <div class="content-item">
+          <div class="item-emoji">🛠️</div>
+          <div class="item-body">
+            <div class="item-title">工具和工作流</div>
+            <div class="item-desc">真正在用的工具，实际的效率提升，不安利不恰饭</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

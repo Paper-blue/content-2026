@@ -1,0 +1,108 @@
+<section style="max-width: 100%; box-sizing: border-box; padding: 20px 16px; background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; line-height: 1.8; font-size: 16px;">
+
+<section style="text-align: center; margin-bottom: 30px;">
+<img src="./附件/cover.png" style="width: 100%; border-radius: 8px; margin-bottom: 16px;" />
+<h1 style="font-size: 22px; font-weight: bold; color: #2c3e50; margin: 0 0 8px 0; line-height: 1.4;">Agent 时代，一条报错能毁掉整个任务</h1>
+<p style="font-size: 13px; color: #999; margin: 0;">文 / Zayen知蓝</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">大部分工程师最怕收到的消息，不是来自老板，是来自自己写的系统。</p>
+<p style="margin: 0 0 16px 0;">凌晨两点，告警响了。你打开日志，看到一行报错：<code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0392b;">Cannot deliver a Channelz message to channel @barnyard-friends: channel does not exist</code>。作为写了这段代码的人，你立刻知道问题在哪——频道名写错了，用了 @ 前缀而不是 #。改一下，十分钟搞定。</p>
+<p style="margin: 0 0 16px 0;">但如果看到这条消息的不是你呢？</p>
+<p style="margin: 0 0 16px 0;">一个刚入职的运维同事，一个不了解 Channelz 内部实现的产品经理，或者一个正在调用你 API 的外部开发者——对他们来说，"channel does not exist"基本等于什么都没说。频道明明存在，为什么说不存在？是被删了？是权限问题？还是系统出了 bug？</p>
+<p style="margin: 0 0 16px 0;">Drew Hoskins 在技术行业干了二十多年——Microsoft、Facebook、Oculus、Stripe、Temporal——他花了 18 个月写了一本书，叫「The Product-Minded Engineer」。书里有一个判断挺反直觉：<strong>诊断信息可能是你产品最重要的界面</strong>。</p>
+<p style="margin: 0 0 0 0;">不是首页，不是核心功能，是报错。</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">一、低估</h2>
+<p style="margin: 0 0 16px 0;">这个判断的依据不复杂。</p>
+<p style="margin: 0 0 16px 0;">想一下你每天写代码的时间分配。写新功能、写业务逻辑的时间有多少？处理报错、lint 规则、类型检查、调试信息的时间又有多少？Hoskins 的说法是，后者至少占一半。</p>
+<p style="margin: 0 0 16px 0;">用户那边也差不多。填电子表单的体验，基本上就是不断被告知哪里填错了、哪里格式不对。使用一个复杂应用的时间里，有相当一部分花在跟错误提示和警告打交道上。</p>
+<p style="margin: 0 0 0 0;">但大多数团队花在错误消息上的设计精力，几乎为零。功能有 PRD，UI 有设计稿，报错信息呢？工程师写代码的时候随手填的一个字符串。</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">二、分类</h2>
+<p style="margin: 0 0 16px 0;">错误不是一类东西。Hoskins 把它拆成了五种：</p>
+<p style="margin: 0 0 16px 0;"><strong>系统错误</strong>——服务挂了、网络断了、磁盘满了。用户没法修复，只能等。消息的目标：告诉用户发生了什么，以及大概什么时候能恢复。</p>
+<p style="margin: 0 0 16px 0;"><strong>用户无效参数</strong>——邮箱格式不对、密码太短、文件太大。用户可以修复。消息需要精确指出哪里错了，怎么改。</p>
+<p style="margin: 0 0 16px 0;"><strong>前置条件未满足</strong>——没有付费、没有绑定信用卡、没有开通某个权限。用户需要先完成另一个操作。消息要给出那个操作的入口。</p>
+<p style="margin: 0 0 16px 0;"><strong>开发者无效参数</strong>——API 调用方式不对。面向的不是终端用户，是集成你产品的开发者。</p>
+<p style="margin: 0 0 16px 0;"><strong>断言失败</strong>——不该发生的事情发生了。面向的是你自己的团队。</p>
+<p style="margin: 0 0 0 0;">五种错误，面向不同的人，需要完全不同的措辞和处理策略。但在大部分代码库里，它们混在一起，统一抛一个 <code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0392b;">Error: something went wrong</code>。</p>
+</section>
+
+<section style="text-align: center; margin-bottom: 24px;">
+<img src="./附件/section1-error-types.png" style="width: 66%; border-radius: 6px;" />
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">三、边界</h2>
+<p style="margin: 0 0 16px 0;">哪里抛错误，比怎么写错误消息更重要。</p>
+<p style="margin: 0 0 16px 0;">Hoskins 举了一个他做的告警系统 ChickenLittle 的例子。系统要给 on-call 的人发告警，流程很简单：查到 on-call 用户 → 发消息。</p>
+<p style="margin: 0 0 16px 0;">最初的实现是：直接把用户 ID 传给下游的消息 API。如果 on-call 排班表里配了一个不存在的用户，下游 API 会返回一个莫名其妙的错误——<code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0392b;">user not found</code>。收到这条消息的人根本不知道问题出在排班配置上。</p>
+<section style="background: linear-gradient(135deg, #e8f4f8 0%, #f0f8ff 100%); border-left: 4px solid #4A90A4; border-radius: 0 6px 6px 0; padding: 16px 20px; margin: 0 0 16px 0;">
+<p style="margin: 0; font-size: 16px; color: #2c3e50; line-height: 1.8;">改进后的做法：<strong>在发消息之前先验证 on-call 用户是否存在</strong>。如果不存在，ChickenLittle 自己生成一条消息："排班表里的用户找不到了，点这里修复你的 rotation。"</p>
+</section>
+<p style="margin: 0 0 16px 0;">区别在于错误在哪个层级被捕获。在接口边界——API 或 UI 这一层——你同时拥有两个上下文："发生了什么"和"用户想做什么"。越往底层走，后一个上下文越模糊。</p>
+<p style="margin: 0 0 0 0;">一条从数据库驱动层冒上来的 <code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0392b;">user not found</code>，到了用户面前，已经完全没有业务含义了。</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">四、可操作</h2>
+<p style="margin: 0 0 16px 0;">回到开头那个 Channelz 的例子。</p>
+<section style="background: #f0f4f8; border-radius: 6px; padding: 16px; margin: 0 0 16px 0; font-size: 15px;">
+<p style="margin: 0 0 8px 0; font-weight: bold; color: #4A90A4;">同一个错误，三种消息</p>
+<p style="margin: 0 0 6px 0;">差：<code style="font-size: 13px;">Cannot deliver a Channelz message to channel @barnyard-friends: channel does not exist</code></p>
+<p style="margin: 0 0 6px 0;">好一点：<code style="font-size: 13px;">Channel @barnyard-friends not found. Did you mean #barnyard-friends?</code></p>
+<p style="margin: 0;">最好：<code style="font-size: 13px;">Channel @barnyard-friends uses @, but we found #barnyard-friends. Is that what you meant?</code></p>
+</section>
+<p style="margin: 0 0 16px 0;">三个版本的信息量完全不同。第一个只说了"出错了"。第二个说了"可能是这个原因"。第三个说了"原因是这个，你要不要试试这个？"</p>
+<p style="margin: 0 0 16px 0;">Google 搜索的"Did you mean..."是这个思路的极致——不只告诉你拼错了，直接给你一个可能正确的结果。</p>
+<section style="margin-bottom: 16px;">
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0; line-height: 1.8;">好的错误消息回答两个问题：发生了什么？用户能做什么？用产品语言，不是实现细节。</p>
+</section>
+<p style="margin: 0 0 0 0;">还有一个容易忽略的细节。有些操作风险很高但不一定是错误。比如有人配了一个重试策略：600 秒内重试 601 次，超过了系统的 50 次限制。这不是"错误"，是一个需要警告的高风险配置。弹出警告，同时提供 <code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-size: 14px; color: #c0392b;">--force</code> 让用户覆盖——尊重用户的判断，但确保他知道自己在做什么。</p>
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">五、前移</h2>
+<p style="margin: 0 0 16px 0;">更高级的做法不是写更好的错误消息，是让错误根本走不到那一步。</p>
+<p style="margin: 0 0 16px 0;">Hoskins 用了一个词：<strong>Shift Left</strong>。把校验尽可能往前移。</p>
+<p style="margin: 0 0 16px 0;">信用卡号和 ISBN 编码里都有一个校验位。在你提交表单之前，系统用一个简单的数学运算就能判断号码格式是否合法。这个检查几乎不花计算资源，但能拦掉大量无效输入，避免它们走到后端支付接口才被打回。</p>
+<p style="margin: 0 0 16px 0;">Stripe 的测试模式是另一个例子。提供一组特殊的测试卡号，每个触发不同的错误场景——余额不足、卡过期、CVV 错误。商户在接入真实交易之前，就能完整测试自己的错误处理逻辑。</p>
+<p style="margin: 0 0 0 0;">把便宜的检查放在前面频繁执行，贵的检查放在后面按需触发。这在数据管道设计里是基本原则，用在产品设计上同样成立。</p>
+</section>
+
+<section style="text-align: center; margin-bottom: 24px;">
+<img src="./附件/section2-agent-error.png" style="width: 66%; border-radius: 6px;" />
+</section>
+
+<section style="margin-bottom: 24px;">
+<h2 style="font-size: 20px; font-weight: bold; color: #4A90A4; border-bottom: 2px solid #4A90A4; padding-bottom: 8px; margin: 0 0 16px 0;">六、Agent</h2>
+<p style="margin: 0 0 16px 0;">这些原则在 2026 年多了一层新的压力。</p>
+<p style="margin: 0 0 16px 0;">AI Agent 正在成为产品的重度用户。Agent 调用 API、解析响应、根据结果决定下一步动作。遇到错误时，它纠错的依据就是错误消息本身。</p>
+<section style="background: #f0f4f8; border-radius: 6px; padding: 16px; margin: 0 0 16px 0; font-size: 15px;">
+<p style="margin: 0 0 8px 0; font-weight: bold; color: #4A90A4;">对 Agent 来说</p>
+<p style="margin: 0 0 4px 0;"><code style="font-size: 13px;">Error 500: Internal Server Error</code> → 死路，无法判断下一步</p>
+<p style="margin: 0;"><code style="font-size: 13px;">Rate limit exceeded. Retry after 30 seconds</code> → 明确的行动指令</p>
+</section>
+<p style="margin: 0 0 16px 0;">差的错误消息在人的场景下只是体验不好。在 Agent 的场景下，直接导致任务失败和成本浪费。Hoskins 的团队在 Temporal 已经开始用 AI 工具聚合来自 Slack、GitHub Issues、社区论坛的用户反馈，从中定位最高频的错误场景。</p>
+<p style="margin: 0 0 0 0;">错误消息的质量，正在从"体验问题"变成"系统可靠性问题"。</p>
+</section>
+
+<section style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-bottom: 24px;">
+<p style="margin: 0 0 16px 0;">产品思维不是一种天赋。Hoskins 给出的练习方法很朴素：多问"为什么"，不期望总能得到清晰的答案；在系统视角和用户视角之间反复切换；参与客户支持，因为那里才能看到用户真正卡住的地方。</p>
+<p style="margin: 0 0 16px 0;">John Carmack 在 Oculus 的时候，技术能力毋庸置疑，但他花大量时间做的事不是写渲染引擎——是亲自推动 Netflix 和 Mojang 把应用带到 Oculus 平台上。没有内容的 VR 头显只是一个昂贵的摆设。</p>
+<p style="margin: 0 0 16px 0;">能把代码写好的工程师很多。能退后一步想"用户看到这条消息的时候在想什么"的工程师，没那么多。</p>
+<p style="font-size: 18px; color: #333; font-weight: 600; margin: 16px 0; padding: 20px 24px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #4A90A4; border-radius: 0 8px 8px 0; line-height: 1.8;">区别可能就从一条报错信息开始。</p>
+<p style="margin: 16px 0 0 0; font-size: 14px; color: #999; font-style: italic;">本文受 Gergely Orosz 与 Drew Hoskins 的「The Product-Minded Engineer」启发。</p>
+</section>
+
+<section style="text-align: center; padding: 16px 0; border-top: 1px solid #e0e0e0;">
+<p style="margin: 0; font-size: 13px; color: #aaa;">Zayen知蓝 | 构建者视角的深度思考</p>
+</section>
+
+</section>

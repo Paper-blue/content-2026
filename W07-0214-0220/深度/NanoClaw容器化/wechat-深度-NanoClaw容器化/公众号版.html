@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 写了 90% 的代码，剩下 10% 是什么？</title>
+</head>
+<body>
+<section style="margin: 0; padding: 20px; background-color: #f8f7f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; color: #3a3a3a; line-height: 1.8;">
+
+<section style="max-width: 720px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+
+<section style="text-align: center; background-color: #ffffff;">
+<img src="./附件/cover.png" alt="封面" style="width: 100%; height: auto; display: block;">
+</section>
+
+<section style="padding: 40px 30px;">
+
+<h1 style="font-size: 28px; font-weight: 700; color: #2c2c2c; margin: 0 0 30px 0; line-height: 1.4; text-align: center;">AI 写了 90% 的代码，剩下 10% 是什么？</h1>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">Rakuten 的工程师在测试 Claude Code 时给了它一个复杂任务,然后离开了七个小时。回来时发现任务完成了,准确率 99.9%。这听起来像个广告案例,但真正有意思的问题藏在后面:如果 AI 能自主完成七小时的工作,那工程师这七小时在做什么?</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">答案可能让人意外:他们在设计"让 AI 完成这七小时工作"的系统。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">协调代码生成,而非生成代码</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">Anthropic 内部数据显示,Claude Code 现在写了他们 70-90% 的代码——包括 Claude Code 自己 90% 的代码。这个递归式的自举过程揭示了一个转变:开发者的角色正在从"写代码"迁移到"协调代码生成"。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">但这个转变并不简单。当 AI 能处理 90% 的代码时,剩下的 10% 是什么?不是"最难的那部分",而是<strong style="color: #c0503e;">定义什么是那 90%</strong>的部分。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ Hess 在播客里提到他的前端工作流已经不需要手写 JavaScript 和 HTML 了。但这不是说他不写代码了——他在写的是<strong style="color: #c0503e;">让 AI 写代码的规则</strong>。他开发了 Flowy,一个将 Claude 的 ASCII 图表转换为可交互流程图的工具。有意思的地方在于,他没有教 Claude 如何画图,而是教 Claude 如何<strong style="color: #c0503e;">输出符合 Flowy 规范的 JSON</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这个区别很关键。"让 AI 学会画图"是个模糊的意图,"输出特定格式的 JSON"是个可验证的约束。前者依赖 AI 的理解力,后者依赖工程规范。当你在构建 AI 工具链时,你其实在做的是<strong style="color: #c0503e;">把模糊意图转换为可验证约束</strong>。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">Custom Skills 不是 Prompt,是接口</h2>
+
+<section style="text-align: center; margin: 30px 0;">
+<img src="./附件/section2.png" alt="配图" style="width: 100%; height: auto; border-radius: 6px;">
+</section>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ 为 Flowy 创建了专门的 Skills——一个用于流程图,一个用于 UI mockup。这些 Skills 不是简单的提示词模板,而是带约束的接口定义。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">传统的 Prompt Engineering 思路是"怎么说话让 AI 更懂我"。但 Skills 的思路是"定义 AI 的输出格式,让下游工具能解析"。这个差异决定了工具链的可组合性。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">想象你在构建一个 CI/CD 流水线。你不会说"请帮我把代码打包好",你会定义 Dockerfile、build script、artifact 格式。AI 工具链也一样——<strong style="color: #c0503e;">Skills 是接口规范,不是沟通策略</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这也是为什么 CJ 的系统能"复合增长":新工具生成新 Skills,新 Skills 让 AI 更好地使用新工具。但这个增长不是自发的,它的前提是<strong style="color: #c0503e;">标准化接口</strong>。如果每个工具都用自己的 DSL,复合增长就变成了集成地狱。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">目前看,这个标准化问题还没完全解决。CJ 提到 Skills 会随着工具演化,但演化的版本管理、Skills 之间的依赖关系、冲突解决——这些都还是开放问题。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">双模型协作的权衡点</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ 的工作流用 Claude 生成代码,用 GPT-5.2 Codex 做审查。这不是"两个总比一个好"的简单逻辑,而是基于任务特性的分工设计。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">Claude 擅长理解开发者意图,尤其是在意图模糊、需要推断上下文的场景。Codex 擅长发现代码异味和重构机会,但不太会"猜你想要什么"。这个分工有个隐含的设计原则:<strong style="color: #c0503e;">生成任务需要理解意图,审查任务需要识别模式</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">但双模型协作有成本。每次模型切换都涉及上下文传递,你需要把 Claude 的输出格式化为 Codex 能理解的输入。如果上下文窗口足够大,这个成本可以忽略;但如果任务涉及大量代码库遍历,上下文切换可能成为瓶颈。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">什么时候值得用双模型?一个判断标准是:审查环节能否发现生成环节<strong style="color: #c0503e;">系统性忽略</strong>的问题。如果 Claude 总是忘记处理边界条件,Codex 能抓住,那双模型有价值。如果只是随机错误,多跑几次单模型可能更高效。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这里有个微妙的权衡:<strong style="color: #c0503e;">专业化收益 vs 上下文切换成本</strong>。目前看,前端任务(UI mockup、布局调整)适合双模型,因为审查标准清晰(可访问性、响应式设计)。后端任务(业务逻辑、数据处理)可能单模型够用,因为约束已经在类型系统和测试里了。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">视觉化输出的真正价值</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ 说"视觉规划降低认知负载",但他也说"即使内容相同,视觉格式也比文本更易理解"。这个观察值得展开。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">ASCII 流程图和可交互流程图的信息量可能一致,但<strong style="color: #c0503e;">决策摩擦</strong>不同。当你看 ASCII 图时,你需要在脑子里重建空间关系;当你看可交互图时,这个重建已经完成了。区别不在于"理解",而在于"确认"。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这对审批流程有直接影响。如果老板问"这个架构合理吗",你给他看 ASCII 图,他需要先"读懂"再判断;你给他看流程图,他可以直接判断。前者的认知成本在<strong style="color: #c0503e;">翻译</strong>,后者在<strong style="color: #c0503e;">评估</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">工具的价值不是"增加信息量",而是<strong style="color: #c0503e;">把认知成本从翻译转移到评估</strong>。这也是为什么 Flowy 不只是把 ASCII 转成 SVG,还要做可交互——交互降低的是"探索分支可能性"的成本。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">但这引出一个设计问题:什么时候视觉化是必要的?如果下游是 AI 而非人类,视觉化可能是浪费。Claude 读 JSON 比读 SVG 快,也更准确。所以<strong style="color: #c0503e;">视觉化是为人类决策服务的,不是为 AI 处理服务的</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这意味着在工具链设计时,你需要区分"人类审批节点"和"AI 自动化节点"。前者输出视觉化,后者输出结构化数据。混淆这两者会导致过度渲染或信息丢失。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">Git 作为权限边界的工程实践</h2>
+
+<section style="text-align: center; margin: 30px 0;">
+<img src="./附件/section3.png" alt="配图" style="width: 100%; height: auto; border-radius: 6px;">
+</section>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ 给 AI 起了个别名叫 Kevin,赋予它 bypass 权限,让它直接提交代码。这听起来很激进,但背后的逻辑很工程化:<strong style="color: #c0503e;">不是信任 AI 不犯错,而是信任 Git 能回滚</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">传统的权限设计思路是"阻止错误发生"。但在 AI 协作场景下,错误是常态,阻止不现实。更可行的思路是<strong style="color: #c0503e;">让错误可观测、可回滚</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这个思路的前提是版本控制系统足够强。如果你的回滚会丢失未提交的工作,或者回滚成本很高(需要重新构建环境),那 bypass 权限就是灾难。但如果你的工作流本来就是"小步提交、频繁回滚",那 AI 的提交和人类的提交没什么区别。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这也解释了为什么 CJ 敢让 AI "全权处理"前端代码——前端的回滚成本低,改动影响范围小,测试反馈快。如果是数据库迁移或配置变更,bypass 权限的风险就高得多。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">权限设计的核心不是"谁能做什么",而是<strong style="color: #c0503e;">"做错了怎么办"</strong>。AI 的权限应该和它的可观测性匹配:如果你能实时监控 AI 的操作、随时回滚、快速验证,那它可以有很高的权限;如果这些条件不满足,即使 AI 很准确,也不该放开权限。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">目前看,Git 作为权限边界是个巧妙的工程实践,但它只适用于代码变更。对于运行时操作(部署、数据修改、权限变更),还没有类似 Git 的"轻量级回滚"机制。这可能是下一阶段需要解决的问题。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">技能的复合增长与隐藏成本</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">CJ 提到他的系统有个"复合增长"效应:新工具→新 Skills→更好的工具。这个循环看起来很美好,但它有个前提:<strong style="color: #c0503e;">Skills 之间不能冲突</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">想象你有两个 Skills,一个教 Claude 生成 React 组件,一个教它生成 Vue 组件。如果这两个 Skills 同时激活,Claude 会输出什么?可能是混合语法,也可能是随机选择一个,也可能是报错。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这个问题在 Skills 数量少的时候不明显,但当你有几十个 Skills 时,组合爆炸就会出现。你需要定义 Skills 的优先级、互斥关系、激活条件——这本质上是在做<strong style="color: #c0503e;">依赖管理</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">但依赖管理很难。npm、pip、cargo 这些包管理器花了十几年才稳定下来,而且它们管理的是静态依赖。Skills 的依赖是动态的——"在生成 API 文档时使用 Skill A,在生成测试时使用 Skill B"——这比静态依赖复杂得多。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">还有个隐藏成本是<strong style="color: #c0503e;">上下文污染</strong>。每个 Skill 都会向 AI 的上下文注入一些信息(格式规范、示例、约束)。当你激活十个 Skills 时,上下文窗口可能被占满,导致 AI 处理实际任务的空间变小。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">目前的解决方案是"按需加载 Skills",但这需要准确判断"什么时候需要哪个 Skill"。如果判断错了,要么缺少关键信息,要么加载了无用信息。这个判断本身可能需要 AI 来做,但那又回到了"用 AI 管理 AI"的递归问题。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">复合增长是真实的,但它的边界也是真实的。当 Skills 数量超过某个阈值,管理成本可能超过增长收益。这个阈值在哪?现在还没人知道。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">未解决的问题</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">Claude Code 展示了 AI 工具链的可能性,但也暴露了一些未解决的问题:</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;"><strong style="color: #c0503e;">测试覆盖率的悖论</strong>。当 AI 写了 90% 的代码,谁来写测试?如果 AI 也写测试,那测试的意义是什么?测试是为了验证实现是否符合预期,但如果实现和测试都来自同一个意图理解系统,它们可能会<strong style="color: #c0503e;">系统性地偏离真实需求</strong>。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;"><strong style="color: #c0503e;">技能的版本演化</strong>。CJ 说 Skills 会随工具演化,但演化意味着旧版 Skills 生成的代码可能不兼容新版工具。如果没有版本管理,你的代码库会充满"这段代码是用 v2 Skills 生成的,但工具已经升级到 v5"的技术债。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;"><strong style="color: #c0503e;">多人协作的一致性</strong>。当团队里每个人都有自己的 Custom Skills 时,AI 生成的代码风格会不一致。你需要某种"团队级 Skills 配置",但这又引入了配置管理的复杂性。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这些问题不是 Claude Code 独有的,而是所有 AI 工具链都会遇到的。它们的解决可能需要新的工程范式——不是改进 AI,而是改进<strong style="color: #c0503e;">人类如何组织 AI 的工作</strong>。</p>
+
+<h2 style="font-size: 22px; font-weight: 600; color: #c0503e; margin: 35px 0 20px 0; padding-bottom: 10px; border-bottom: 2px solid #f0e8e6;">从工具到基础设施</h2>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">回到最开始的问题:当 AI 能自主工作七小时,工程师在做什么?</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">他们在设计约束、定义接口、管理依赖、监控错误、优化流程——这些工作以前散落在代码里,现在需要显式地表达出来,因为 AI 需要读懂它们。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">Claude Code 的价值不是"替代开发者",而是<strong style="color: #c0503e;">让隐性工程知识显性化</strong>。当你教 AI 做事时,你被迫把"怎么做是对的"写成可执行的规范。这个过程本身就是工程化。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">但这也意味着,未来的开发者需要两种能力:一种是传统的"写代码",一种是新的"定义 AI 的工作边界"。前者关注实现,后者关注约束。两者都重要,但后者可能变得更关键——因为实现可以外包给 AI,约束不行。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">这不是说代码会消失,而是说<strong style="color: #c0503e;">代码的作用在改变</strong>。以前代码是目标,现在代码是验证约束的手段。当你写代码时,你在验证"这个约束能用代码表达";当 AI 写代码时,它在验证"这个约束我理解对了"。</p>
+
+<p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">从工具到基础设施的转变,核心是从"AI 帮我写代码"到"我定义 AI 的能力边界"。这个转变还在进行中,没人知道终点在哪,但方向已经清楚了。</p>
+
+<section style="margin: 40px 0 20px 0; padding: 20px; background-color: #faf9f8; border-left: 4px solid #c0503e; border-radius: 4px;">
+<p style="margin: 0; color: #666; font-size: 14px; line-height: 1.6;">
+<strong style="color: #c0503e;">参考资料</strong><br>
+1. Lenny's Newsletter - Building AI Developer Tools with Claude Code<br>
+2. GeekWire - Claude Code has Seattle engineers buzzing<br>
+3. Pragmatic Engineer - When AI writes almost all code
+</p>
+</section>
+
+<section style="margin: 40px 0 0 0; padding-top: 30px; border-top: 1px solid #e8e8e8; text-align: center; color: #999; font-size: 14px;">
+<p style="margin: 0 0 10px 0;">Zayen知蓝</p>
+<p style="margin: 0; font-size: 12px;">技术架构 | 工程实践 | 思考方法</p>
+</section>
+
+</section>
+
+</section>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  height: 1440px;
+  overflow: hidden;
+  background: #0a0e27;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif;
+}
+
+.canvas {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  background: linear-gradient(145deg, #0a0e27 0%, #0f1635 20%, #141e45 40%, #0d2847 60%, #0a2a3a 80%, #0e1a2e 100%);
+  overflow: hidden;
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+.blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,132,244,0.4) 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(138,79,255,0.35) 0%, transparent 70%); top: 300px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0,200,200,0.3) 0%, transparent 70%); bottom: 100px; left: 100px; }
+.blob-4 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,100,255,0.2) 0%, transparent 70%); bottom: -50px; right: 100px; }
+
+.glass-orb { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+.orb-1 { width: 200px; height: 200px; top: 120px; right: 60px; }
+.orb-2 { width: 120px; height: 120px; bottom: 200px; left: 60px; }
+.orb-3 { width: 80px; height: 80px; top: 500px; left: 180px; }
+
+.top-bar {
+  position: absolute;
+  top: 56px;
+  left: 60px; right: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+}
+.top-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 10px 24px;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+}
+.top-watermark {
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: 2px;
+}
+
+.content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px;
+  z-index: 10;
+}
+
+.glass-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 80px 64px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(255,255,255,0.02);
+}
+
+.label {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 32px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 6px;
+  margin-bottom: 52px;
+}
+
+.date { font-size: 112px; font-weight: 700; color: #fff; letter-spacing: -2px; line-height: 1; margin-bottom: 16px; }
+.date-sub { font-size: 38px; font-weight: 400; color: rgba(255, 255, 255, 0.4); margin-bottom: 64px; letter-spacing: 3px; }
+
+.divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, rgba(56,180,255,0.8), rgba(138,79,255,0.6));
+  border-radius: 2px;
+  margin-bottom: 64px;
+}
+
+.hook {
+  font-size: 56px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: 1px;
+}
+.hook em {
+  font-style: normal;
+  background: linear-gradient(90deg, #38b4ff, #8a4fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.count { font-size: 34px; font-weight: 400; color: rgba(255, 255, 255, 0.45); letter-spacing: 3px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="glass-orb orb-1"></div>
+  <div class="glass-orb orb-2"></div>
+  <div class="glass-orb orb-3"></div>
+
+  <div class="top-bar">
+    <div class="top-label">AI DAILY</div>
+    <div class="top-watermark">@Zayen知蓝</div>
+  </div>
+
+  <div class="content">
+    <div class="glass-card">
+      <div style="text-align: center;">
+        <div class="label">AI DAILY</div>
+        <div class="date">02.11</div>
+        <div class="date-sub">2026 · WEDNESDAY</div>
+        <div class="divider" style="margin-left: auto; margin-right: auto;"></div>
+        <div class="hook">3600万人围观<em>QuitGPT</em>，集体退订ChatGPT</div>
+        <div class="count">今日精选 8 条</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

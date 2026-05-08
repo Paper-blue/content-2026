@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  background: #0a0e27;
+  font-family: 'HarmonyOS Sans SC', 'PingFang SC', sans-serif;
+}
+
+.canvas {
+  width: 1080px;
+  min-height: 1440px;
+  position: relative;
+  background: linear-gradient(145deg, #0a0e27 0%, #0f1635 20%, #141e45 40%, #0d2847 60%, #0a2a3a 80%, #0e1a2e 100%);
+}
+
+.blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+.blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(56,132,244,0.4) 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(138,79,255,0.35) 0%, transparent 70%); top: 300px; right: -150px; }
+.blob-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(0,200,200,0.3) 0%, transparent 70%); bottom: 100px; left: 100px; }
+.blob-4 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,100,255,0.2) 0%, transparent 70%); bottom: -50px; right: 100px; }
+
+.ghost-number {
+  position: absolute;
+  top: 40px; right: 40px;
+  font-size: 300px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.06);
+  line-height: 1;
+  z-index: 5;
+  letter-spacing: -10px;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 48px 48px 48px;
+  z-index: 10;
+  min-height: 1440px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.top-label {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 10px 24px;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+}
+.top-watermark {
+  font-family: 'HarmonyOS Sans SC', 'PingFang SC', sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: 2px;
+}
+.top-date {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+.news-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 44px 44px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.02);
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.news-number {
+  font-size: 60px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #38b4ff, #8a4fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.category-badge {
+  display: inline-block;
+  background: rgba(56, 180, 255, 0.15);
+  border: 1px solid rgba(56, 180, 255, 0.25);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(56, 180, 255, 0.9);
+}
+.heat-badge { font-size: 24px; }
+
+.news-title {
+  font-size: 54px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+.news-source {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+.news-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: block;
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.fact {
+  position: relative;
+  padding-left: 20px;
+  font-size: 32px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.65;
+}
+.fact::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(56,180,255,0.6), rgba(56,180,255,0.1));
+  border-radius: 2px;
+}
+.fact strong { color: #fff; font-weight: 600; }
+
+.comment-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 28px;
+}
+.comment-label {
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(255, 107, 53, 0.9);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.comment-text {
+  font-size: 28px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.65;
+}
+.comment-text strong {
+  color: rgba(255, 180, 100, 0.9);
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="ghost-number">02</div>
+
+  <div class="content">
+    <div class="top-bar">
+      <div class="top-label">AI DAILY</div>
+      <div class="top-watermark">@Zayen知蓝</div>
+      <div class="top-date">02.13 · 2/6</div>
+    </div>
+
+    <div class="news-card">
+      <div class="meta-row">
+        <div class="news-number">02</div>
+        <div class="category-badge">产品发布</div>
+        <div class="heat-badge">🔥</div>
+      </div>
+
+      <div class="news-title">OpenAI 用新芯片 编程速度快 15 倍</div>
+      <div class="news-source">TechCrunch / Ars Technica · 2026-02-13</div>
+
+      <div class="facts">
+        <div class="fact">OpenAI 于 2 月 12 日发布 <strong>GPT-5.3-Codex-Spark</strong>，这是 Codex 编程工具的轻量化版本。该模型部署在 <strong>Cerebras</strong> 的 WSE-3 芯片上，配备 <strong>4 万亿晶体管</strong>，速度比前代提升 <strong>15 倍</strong>。</div>
+        <div class="fact">这是 OpenAI 与 Cerebras 在 1 月宣布价值超 <strong>100 亿美元</strong>多年合作协议后的首个里程碑。Spark 目前仅向 <strong>ChatGPT Pro</strong> 用户开放，定位为日常生产力驱动工具。</div>
+      </div>
+
+      <img class="news-image" src="/Users/paperblue/Projects/Obsidian/ContentCreation/内容创作/2026/02/13-AI行业日报/附件/02-openai-codex.jpg" alt="" />
+
+      <div class="comment-card">
+        <div class="comment-label">💡 INSIGHT</div>
+        <div class="comment-text">OpenAI 首次采用非 Nvidia 芯片，标志着 AI 基础设施从单一供应商依赖转向多元化——这不仅是工程优化，更是战略风险对冲。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

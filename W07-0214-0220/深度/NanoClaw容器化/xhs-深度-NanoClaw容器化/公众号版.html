@@ -1,0 +1,168 @@
+<section style="background-color: #f3f2f0; padding: 28px 20px;">
+
+<section style="margin-bottom: 24px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/header.gif" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<section style="text-align: center; padding: 40px 24px 34px 24px; margin-bottom: 28px; background-color: #ffffff; border-radius: 10px; border: 1px solid #e8e6e2; border-top: 3px solid #c0503e;">
+<p style="display: inline-block; margin: 0 0 16px 0; font-size: 11px; color: #c0503e; letter-spacing: 3px; font-weight: 600; padding: 3px 14px; border: 1px solid #e8ccc8; border-radius: 20px; background-color: #faf4f3;">ZAYEN知蓝 · 深度</p>
+<h1 style="font-size: 24px; color: #1a1a1e; margin: 0 0 12px 0; font-weight: 700; line-height: 1.45;">90% 自动化背后：Claude Code 从代码助手到工程系统的架构实践</h1>
+<p style="font-size: 12px; color: #a0a0a0; margin: 0;">文 / Zayen知蓝</p>
+</section>
+
+<section style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/cover.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<section style="padding: 20px 24px; margin-bottom: 26px; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #c0503e;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">很多人把 Claude Code 当成"更聪明的 Copilot"。打开编辑器，问它写个函数，生成代码，复制粘贴，继续下一个。这样用当然没问题，但你可能错过了更关键的东西。</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">CJ Hess 用 Claude Code 实现了前端开发 90% 自动化——三个月没写一行 JavaScript。他把 Claude Code 当成一个可以<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">演化的工程系统</strong>来构建。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这里面有三个支柱：Skills 模块化架构、双模型协作工作流、规范驱动开发。听起来很技术，但拆开看，你会发现这些都是可以复用的工程方法。</p>
+</section>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">一、为什么简单套壳走不通</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">最直观的想法是：拿 Claude API，包一层界面，加点快捷键，就是自己的 AI 编程工具了。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但用不了多久就会发现问题。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">第一个问题是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">输出格式不稳定</strong>。你让它生成 JSON，它可能给你 Markdown 代码块包裹的 JSON，可能多一段解释，可能少一个逗号。下游工具要解析这些输出，就得写一堆容错逻辑。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">第二个问题是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">上下文爆炸</strong>。最开始你只是让 AI 写一个组件，后来你希望它能记住整个项目的架构、代码风格、依赖关系。这时候上下文已经塞不下了，AI 开始"遗忘"之前的规则，输出质量下降。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">第三个问题是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">理解偏差</strong>。你说"重构这个模块"，AI 可能理解成"重写"，也可能理解成"优化性能"，还可能理解成"改个变量名"。如果没有明确的规范，每次都是在赌 AI 能否理解你的真实意图。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这些问题的共同点是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">你把 AI 当成一个黑盒在用</strong>，输入不明确，输出不可控，中间过程不透明。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">CJ Hess 的做法不一样。他做了一个叫 Flowy 的工具——把 Claude 生成的 ASCII 流程图转换成可交互的可视化图表。这个工具本身不复杂，但它揭示了一个思路：</p>
+</section>
+
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 16px 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">让 AI 的输出适配人的认知方式。</p>
+
+<section style="margin-bottom: 26px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/section2.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">二、Skills：可演化的模块化能力体系</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Skills 是 Claude Code 里的一个概念——你可以把它理解为"给 AI 定义的专项能力"。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">每个 Skill 是一组明确的指令，告诉 Claude 在特定场景下应该怎么做、输出什么格式、遵循什么规则。比如：</p>
+</section>
+
+<section style="padding: 16px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; font-size: 14px; font-family: 'Courier New', monospace;">
+<p style="margin: 0 0 4px 0; color: #3a3a3a;">- 一个 Skill 专门生成流程图 JSON</p>
+<p style="margin: 0 0 4px 0; color: #3a3a3a;">- 另一个 Skill 专门生成 UI 原型数据</p>
+<p style="margin: 0; color: #3a3a3a;">- 还有 Skill 负责代码审查清单</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Hess 的做法是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">让 Skills 和工具一起演化</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">一开始他只有一个简单的 Skill，能生成基础的流程图 JSON。后来他发现节点之间的连线逻辑经常出错，就在 Skill 里加了一条规则："每条边必须明确 source 和 target，且必须在节点列表中存在"。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">再后来，他希望流程图能支持条件分支的样式区分，于是在 Skill 里增加了 edgeType 字段的定义和取值范围。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">每次调整 Skill，相当于给 Claude 更新了"工作手册"。这个手册越详细，Claude 的输出就越稳定。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这种架构有两个好处：</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">能力复用</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">你写好一个 Skill 之后，它就成了你的"AI 工具箱"里的一件工具。下次遇到类似需求，直接调用这个 Skill，不用重新写提示词。</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 24px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">能力叠加</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">你可以组合多个 Skills——先用生成代码的 Skill 写一个函数，再用代码审查的 Skill 检查它，最后用文档生成的 Skill 输出注释。这样 AI 的能力就不是单点的，而是可以形成工作流。</p>
+</section>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">三、双模型协作：生成与审查的分离</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Hess 用的方法是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">Claude 负责生成，GPT-5.2 Codex 负责审查</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个设计很反直觉。一般人会觉得，既然 Claude 能写代码，为什么不让它自己检查自己？或者干脆用最强的模型一步到位？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">他的理由是：模型的"能力倾向"不一样。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Claude 更擅长理解意图、快速构建功能。你告诉它"做一个用户登录模块"，它能很快给出可用的代码框架。但它不太擅长"吹毛求疵"——发现代码里的隐藏问题、设计缺陷、性能瓶颈。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">GPT Codex 恰好相反。它不如 Claude 那么"灵活"，但它对代码质量的敏感度更高。给它一段代码，它能指出哪里有重复逻辑、哪里可能引发异常、哪里应该提取成函数。</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 24px 0; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #d8a8a0;">
+<p style="margin: 0 0 10px 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">让每个模型做它最擅长的事。你不会让一个擅长头脑风暴的人去做细节检查，也不会让一个擅长 Code Review 的人去快速原型开发。AI 也一样。</p>
+</section>
+
+<section style="margin-bottom: 26px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/section3.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">四、规范驱动：让 AI 看懂你的项目结构</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2026 年开发者圈子里有个新词：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">Spec-Driven Development</strong>（规范驱动开发）。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">核心思路是：把项目规范当成唯一的事实来源。每次 AI 工作时，都从规范出发，评估当前代码状态，然后决定下一步操作。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">为什么要这样做？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">因为 AI 的"记忆"不可靠。它没有人的那种长期记忆能力，你告诉它的规则，可能在几轮对话后就被冲掉了。如果每次都重新描述规则，既浪费 token，又容易遗漏。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">更好的办法是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">把规则写进项目里</strong>。</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">.ai-spec 文件夹结构</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">项目架构说明（目录结构、模块依赖）</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">代码风格规范（命名约定、注释格式）</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">常用 Patterns（错误处理、状态管理）</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;">依赖版本锁定</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Claude Code 在工作时会自动读取这些文件。它不需要你每次都说"记得用 TypeScript"、"记得加类型注解"、"记得用 async/await"。这些规则已经在 spec 里了，AI 直接执行。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这样做有个隐含的好处：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">项目结构本身就是最好的 Prompt</strong>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">如果你的项目结构清晰、文件命名一致、模块边界明确，AI 就能快速推断出你的意图。反之，如果项目结构混乱、命名随意、职责不清，AI 也会跟着混乱。</p>
+</section>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">五、风险与边界：权限管理与防护机制</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">自动化程度越高，风险就越大。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Hess 的做法是给 AI 开了很高的权限——它可以直接修改代码、安装依赖、执行脚本。这在很多团队看来是不可接受的。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但他用的是一个"迂回"策略：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">给 AI 创建一个专用身份</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">他在 Git 配置里创建了一个名叫"Kevin"的提交者，所有 AI 生成的代码都以 Kevin 的名义提交。这个身份有绕过 pre-commit hook 的权限，可以快速推进开发流程。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但"Kevin"提交的代码不是不检查——而是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">延迟检查</strong>。开发阶段 AI 快速迭代，到了合并到主分支时，再统一跑完整的 CI/CD 流程。</p>
+</section>
+
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 16px 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">你有 Git 作为安全网。AI 写坏了代码？回滚。AI 改错了逻辑？回滚。AI 删掉了关键文件？回滚。</p>
+
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">六、真实案例：从 Flowy 到 1250 万行代码</h2>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Flowy 是一个相对简单的工具——输入 ASCII 流程图，输出可交互的可视化界面。代码量不大，几百行 JavaScript。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但它验证了一个关键假设：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">AI 可以成为工具链的一部分</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">更极端的案例来自 Rakuten 的工程师。他们用 Claude Code 在 vLLM 代码库（1250 万行）上实现了一个复杂的技术任务：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">提取激活向量的方法</strong>。</p>
+</section>
+
+<section style="padding: 18px 22px; margin: 0 0 16px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">Rakuten 案例数据</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">7 小时</strong> — 完成任务耗时</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">99.9%</strong> — 代码数值精度</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">1250 万行</strong> — 代码库规模</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">关键是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">它不是一次性写出来的</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Claude Code 的工作方式是：先分析代码库结构，找到相关模块；然后生成初步实现，运行测试；发现问题后自动调试、修改；重复这个循环，直到通过所有测试。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个过程更像是"推演式编程"——AI 在不断试错、验证、调整中逼近正确答案。</p>
+</section>
+
+<section style="margin-bottom: 30px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Claude Code 不是一个"开箱即用"的工具，它更像是一套方法论。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">你可以用它做简单的代码生成，但真正的价值在于：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">把它当成一个可演化的工程系统来构建</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这些事情技术上不难，但需要一个转变：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">从"用 AI 辅助开发"到"和 AI 协作开发"</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">你写代码，AI 帮你补全。或者你定义规则，AI 执行实现。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Hess 三个月没写 JavaScript，因为他把时间花在了更高层次的事情上——设计架构、定义规范、优化工作流。</p>
+</section>
+
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 16px 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">AI 编程工具改变的可能是这个：让你可以少写代码。把时间留给思考，而不是敲代码。</p>
+
+<p style="margin: 16px 0 0 0; font-size: 14px; color: #a0a0a0; font-style: italic;">本文受 CJ Hess 的分享启发，部分内容参考了 Anthropic 官方文档和 Rakuten 工程团队的案例。</p>
+
+<section style="padding: 12px 0; margin-bottom: 6px; text-align: center;">
+<section style="display: inline-block; width: 36px; height: 2px; background-color: #c0503e; border-radius: 1px;"></section>
+</section>
+
+<p style="margin: 6px 0 0 0; font-size: 11px; color: #c0c0c0; text-align: center; letter-spacing: 1px;">ZAYEN 知蓝</p>
+
+</section>

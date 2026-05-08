@@ -1,0 +1,151 @@
+<!-- 微信公众号 HTML - 差评君风格新闻汇总模板 -->
+<div style="background-color: #fafafa; padding: 20px 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; color: #333;">
+
+<section style="max-width: 680px; margin: 0 auto; background-color: #f5f8fa; padding: 32px 20px; border-radius: 8px;">
+
+<!-- 头部标题 -->
+<section style="text-align: center; margin-bottom: 32px;">
+  <h1 style="font-size: 28px; color: #1a1a1a; margin: 0 0 8px 0; font-weight: 700; text-indent: 0 !important;">AI 行业日报</h1>
+  <p style="font-size: 14px; color: #999; margin: 0; text-indent: 0 !important;">2026年2月11日 · 共 8 条</p>
+</section>
+
+<!-- 新闻卡片循环开始 -->
+
+<!-- 1. 前 GitHub CEO 创业 -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 前 GitHub CEO 创业获 6000 万美元种子轮，估值 3 亿美元</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">TechCrunch · 2026-02-10</p>
+  </section>
+  <img src="./附件/02-github-ceo-entire.jpg" alt="前 GitHub CEO 创业" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">前 GitHub CEO Thomas Dohmke 创立的开发工具公司 Entire 获得 6000 万美元种子轮融资，估值 3 亿美元，Felicis 领投，成为开发工具领域最大种子轮。Dohmke 曾在微软 GitHub 任职四年，2025 年 8 月离职创业。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">Entire 推出开源工具 Checkpoints，为 AI 代码生成自动关联上下文（提示词、对话记录），帮助开发者审查和理解 AI 生成的代码。产品基于 Git 兼容数据库、语义推理层和 AI 原生界面三层架构，解决 AI 代码洪流带来的管理难题。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>从 Copilot 的推动者到 AI 代码基建的构建者，Dohmke 的切入点在工具链而非模型——当开源项目已被 AI 生成的拉取请求淹没时，版本控制系统的语义层缺失才是瓶颈。Checkpoints 的可追溯性设计本质是给 AI 协作引入"审计日志"，这套基建如果成为事实标准……开发者的工作流会从"写代码"彻底迁移到"审代码"。</p>
+  </section>
+</section>
+
+<!-- 2. OpenAI Responses API -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 OpenAI 升级 Responses API：支持 Agent 技能和完整终端 Shell</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">VentureBeat · 2026-02-10</p>
+  </section>
+  <img src="./附件/01-openai-responses-api.jpg" alt="OpenAI 升级 Responses API" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">OpenAI 今日发布 Responses API 三大更新：Server-side Compaction、Hosted Shell Containers、Skills 标准支持。电商平台 Triple Whale 的代理 Moby 在测试中成功处理了 500 万 token 和 150 次工具调用，准确性未下降。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">Hosted Shell 为每个代理提供 OpenAI 托管的 Debian 12 容器环境，预装 Python 3.11、Node.js 22、Java 17、Go 1.23、Ruby 3.1，支持 /mnt/data 持久化存储和联网能力，可直接安装库或调用第三方 API。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>Server-side Compaction 解决的不是算力问题——是长周期推理的「断片」难题。传统截断等于让代理失忆，压缩式记忆保留了因果链路……数据工程师可以直接用托管容器跑 ETL，省掉自建中间件，这是把基础设施成本转为 API 订阅的典型打法。</p>
+  </section>
+</section>
+
+<!-- 3. Alphabet 百年债券 -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 Alphabet 发行百年债券为 AI 投资筹资</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">Ars Technica · 2026-02-10</p>
+  </section>
+  <img src="./附件/03-alphabet-bond.jpg" alt="Alphabet 百年债券" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">Alphabet 本周将在英镑市场发行一只 100 年期债券，这是该公司首次发行英镑债券；同时在周一发行 200 亿美元债券（因需求强劲从 150 亿美元追加），并计划发行瑞士法郎债券。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">100 年期债券在科技行业极为罕见，牛津大学、法国电力和惠康基金会（2018）是英镑百年债券市场仅有的发行方，科技公司中仅 IBM 于 1996 年发行过百年美元债券。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>多币种发债是容量设计，单一美元市场可能承接不了科技巨头的资本需求……百年债选英镑而非美元，利率更低，对应的是保险和养老金等长期资产买方的配置需求——这不是短期借钱，而是把 AI 基础设施的回报周期拉长到代际尺度，Alphabet 在用债券结构定义 AI 投资是百年基建。</p>
+  </section>
+</section>
+
+<!-- 4. QuitGPT 运动 -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 「QuitGPT」运动兴起：用户发起抵制 ChatGPT 订阅</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">MIT Technology Review · 2026-02-10</p>
+  </section>
+  <img src="./附件/07-quitgpt.jpg" alt="QuitGPT 运动" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">QuitGPT 运动于 2026 年 1 月在 Reddit 发起，号召用户取消 ChatGPT 订阅。运动主页 Instagram 单条贴文获得 3600 万浏览和 130 万点赞，网站显示超过 1.7 万人注册表示已取消订阅或承诺停用。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">运动起因包括：OpenAI 总裁 Greg Brockman 向特朗普超级政治行动委员会 MAGA Inc. 捐款；美国移民与海关执法局（ICE）使用基于 GPT-4 的简历筛选工具；用户对 GPT-5.2 性能下降和冗长回复不满。截至 2025 年 12 月，ChatGPT 周活跃用户近 9 亿。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>消费级 AI 产品首次遭遇大规模抵制，压力点在订阅收入——只有取消量达到临界规模才能影响企业决策。技术公司的政治站位和性能波动正在从无形的品牌风险转化为可量化的用户流失，这对依赖订阅模式的 AI 产品是新挑战。</p>
+  </section>
+</section>
+
+<!-- 5. Boston Dynamics CEO -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 Boston Dynamics CEO 卸任，现代汽车旗下机器人公司换帅</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">The Verge · 2026-02-10</p>
+  </section>
+  <img src="./附件/04-boston-dynamics-ceo.jpg" alt="Boston Dynamics CEO 卸任" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">Boston Dynamics 宣布 CEO 罗伯特·普莱特（Robert Playter）即日起卸任，将于 2 月 27 日离开公司，CFO 阿曼达·麦克马斯特出任临时 CEO。普莱特在公司工作超过 30 年，自 2020 年起担任 CEO，带领公司完成从软银到现代汽车的收购过渡。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">在普莱特任期内，Boston Dynamics 于 2024 年推出全电动人形机器人 Atlas，并在上月 CES 宣布 Atlas 将于 2028 年进入现代汽车工厂生产线。当前机器人领域竞争加剧，特斯拉、Figure 及多家 AI 公司正在押注人形机器人与"世界模型"技术。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>从研发实验室到商业化落地，普莱特用六年时间把 Boston Dynamics 从技术展示推向量产节点——2028 工厂部署是关键验证窗口。换帅发生在 Atlas 刚开始进入企业场景的节点，背后可能是现代对商业化节奏的调整……技术领先不等于市场先发，人形机器人赛道的终局仍在工程成本与场景适配的权衡里。</p>
+  </section>
+</section>
+
+<!-- 6. 星海图 B 轮融资 -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 星海图完成 10 亿元 B 轮融资，成第四家百亿估值具身智能企业</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">36氪 · 2026-02-11</p>
+  </section>
+  <img src="./附件/06-xinghaitu.jpg" alt="星海图融资" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">具身智能公司星海图于 2026 年 2 月完成 10 亿元 B 轮融资，累计融资额近 30 亿元，估值进入百亿级别。投资方包括金鼎资本、北汽产投、正心谷资本等，高瓴创投、美团龙珠等老股东持续追加。公司成立于 2023 年 9 月，现为国内第四家百亿估值具身智能企业。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">截至 2025 年，星海图已取得数千台量级订单，开发者客户约 150 家，覆盖高校科研机构、大厂研发部门及产业集团。公司自建与外包采集了约 10 万小时真机数据，2025 年 8 月开源 500 小时数据集下载量超 50 万次。2026 年将重点拓展智能制造、物流、商业服务场景。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>10 万小时真机数据对应人类从出生到成年的物理交互时长——这个量级透露出具身智能的工程逻辑：泛化能力需要覆盖足够多的边界情况，而非靠少量样本的算法优化。产业资本（北汽、吉利系）和场景资本（美团系）的加入，意味着具身智能开始进入"成果验证"阶段，竞争点在端到端的任务完成率和成本模型。</p>
+  </section>
+</section>
+
+<!-- 7. 科大讯飞星火 X2 -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 科大讯飞发布全国产算力星火 X2 大模型</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">36氪 · 2026-02-11</p>
+  </section>
+  <img src="./附件/05-iflytek-x2.jpg" alt="科大讯飞星火 X2" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">2月11日，科大讯飞正式发布基于全国产算力训练的星火X2大模型，采用293B MoE稀疏架构，在数学、推理、语言理解、智能体等能力上对标国际顶尖模型，同时覆盖130多种语言。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">星火X2通过权重量化、低精度KVCache、VTP并行技术等工程化创新，推理性能相比X1.5提升50%，已上线讯飞开放平台API，专注于教育、医疗、汽车、智能体等高专业性场景。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>全国产算力训练——这是个工程密度远高于理论难度的选择。293B MoE架构不算激进，技术创新点集中在推理侧（量化、通信、并行），50%性能提升背后是把既有技术栈拧到极限...垂直场景切入也是务实路径，医疗教育汽车都是监管敏感且需要本地化部署的领域。</p>
+  </section>
+</section>
+
+<!-- 8. ChatGPT Deep Research -->
+<section style="margin-bottom: 28px; border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+  <section style="background-color: #2c2c2c; padding: 14px 18px;">
+    <h3 style="margin: 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.4; text-indent: 0 !important;">🔥 ChatGPT Deep Research 新增全屏报告查看器</h3>
+    <p style="margin: 6px 0 0 0; color: #999; font-size: 12px; text-indent: 0 !important;">The Verge · 2026-02-10</p>
+  </section>
+  <img src="./附件/08-chatgpt-deep-research.jpg" alt="ChatGPT Deep Research" style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;" />
+  <section style="padding: 18px; background-color: #fff;">
+    <p style="margin: 0 0 14px 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">OpenAI 为 ChatGPT 的 Deep Research 功能推出全屏报告阅读器，支持左侧目录导航、右侧来源列表，并可导出 Markdown、Word、PDF 格式。该更新今日起面向 Plus 和 Pro 用户上线，Go 订阅和免费用户将在"未来几天"收到更新。</p>
+    <p style="margin: 0; line-height: 1.7; color: #333; font-size: 15px; text-indent: 0 !important;">Deep Research 首次发布于 2024 年，此次更新允许用户指定特定网站和已连接应用作为研究来源，并可在报告生成过程中实时编辑研究范围或添加新来源，全程可跟踪 ChatGPT 的搜索进度。</p>
+  </section>
+  <section style="padding: 14px 18px; background-color: #e8f1f8; border-top: 2px solid #ff6b35;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #444; text-indent: 0 !important;"><strong style="color: #ff6b35;">💡 短评：</strong>全屏阅读器本质是把 AI 研究工具从对话流中剥离出来——当报告复杂度超过聊天窗口的认知负载阈值，独立视图成为刚需。实时编辑研究范围是关键，相当于给 Agent 开了个可调参的"搜索沙盒"…让用户在生成过程中介入，而非只能接受黑盒输出，这是工程上对"可控性"的妥协。</p>
+  </section>
+</section>
+
+<!-- 新闻卡片循环结束 -->
+
+<!-- 底部信息 -->
+<section style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #e0e0e0; text-align: center;">
+  <p style="font-size: 13px; color: #999; margin: 0; text-indent: 0 !important;">由 Zayen知蓝 整理 · 构建者视角</p>
+</section>
+
+</section>
+
+</div>
