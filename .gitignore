@@ -1,8 +1,3 @@
-# Ignore all week directories (work in progress, not for public)
-W*/
-备份/
+# Ignore system files
 .DS_Store
-
-# Only track:
-# - index.html (homepage)
-# - daily/ (published daily news previews)
+*.tmp
