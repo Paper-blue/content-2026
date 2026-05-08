@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>让AI写代码很容易，管好AI写的代码是个新问题</title>
+</head>
+<body>
+
+<section style="max-width: 100%; box-sizing: border-box; padding: 28px 10px; background-color: #f3f2f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #3a3a3e; line-height: 1.8; font-size: 15px;">
+
+<section style="max-width: 680px; margin: 0 auto;">
+
+<!-- ========== 头部品牌动图 ========== -->
+<section style="margin-bottom: 24px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/wechat-header-article.gif" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 封面区域 ========== -->
+<section style="text-align: center; padding: 40px 24px 34px 24px; margin-bottom: 28px; background-color: #ffffff; border-radius: 10px; border: 1px solid #e8e6e2; border-top: 3px solid #c0503e;">
+<p style="display: inline-block; margin: 0 0 16px 0; font-size: 11px; color: #c0503e; letter-spacing: 3px; font-weight: 600; padding: 3px 14px; border: 1px solid #e8ccc8; border-radius: 20px; background-color: #faf4f3;">ZAYEN知蓝 · 深度</p>
+<h1 style="font-size: 24px; color: #1a1a1e; margin: 0 0 12px 0; font-weight: 700; line-height: 1.45;">所有人都在让AI写代码，但没人解决AI写的代码该怎么管</h1>
+<p style="font-size: 12px; color: #a0a0a0; margin: 0;">文 / Zayen知蓝</p>
+</section>
+
+<!-- 封面配图 -->
+<section style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/cover.png" style="width: 100%; height: auto; display: block;" />
+</section>
+
+<!-- ========== 引言区域 ========== -->
+<section style="padding: 20px 24px; margin-bottom: 26px; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #c0503e;">
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">从代码托管到 AI 辅助编程，再到 AI Agent 编排平台——每一次范式转移，都有人提前卡住了最关键的基础设施位置。2026 年 2 月，前 GitHub CEO 筹到有史以来最大的开发者工具种子轮，赌的是下一个位置。</p>
+</section>
+
+<!-- ========== 正文：开场 ========== -->
+<section style="margin-bottom: 28px;">
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2026 年 2 月 10 日，旧金山，一个 15 人的远程团队正式对外亮相。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">创始人叫 Thomas Dohmke，在此之前，他在 GitHub 当了四年 CEO。离职时间是 <strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">2025 年 8 月</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">融资额是 <strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">6000 万美元</strong>。种子轮，6000 万美元。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这是什么概念？PitchBook 的数据显示，这是开发者工具领域<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">有史以来最大的种子轮</strong>。没有先例，没有接近的第二名。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">新公司叫 Entire。产品叫 Checkpoints。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">他们要解决的核心问题，用一句话说清楚就是：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">当 AI 开始大规模替人类写代码，谁来管理 AI 写的代码？</strong></p>
+</section>
+
+<!-- ========== 章节一：飞轮 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">一、飞轮</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">要理解 Entire 这个公司，得先理解它的历史前身 GitHub 做对了什么。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2008 年，GitHub 上线。它解决的是一个很具体的协作问题：代码怎么让多个工程师同时改、同时维护、出了问题怎么回滚？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">答案是 Git + 网页界面。功能本身并不复杂。Git 是 Linus Torvalds 在 2005 年就写出来的工具，开源的，任何人都能拿来用。GitHub 做的，是给 Git 套了一层漂亮的 UI，加了 Issue 追踪、Pull Request 审核、Wiki 文档……把<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">命令行工具</strong>变成了一个协作平台。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但真正让 GitHub 变成平台帝国的，不是这些功能，而是它锁住了<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">开发者的社交图谱</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">你在 GitHub 上有 commit 历史、star 记录、开源项目贡献、公司内部的同事关系……这些东西比代码本身更难迁移。当 GitHub 的注册用户达到 5000 万的时候，这个平台已经不只是一个工具，而是开发者的<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">职业身份证明</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">微软在 2018 年用 <strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">75 亿美元</strong>收购了 GitHub。当时很多人不理解——GitHub 不盈利，产品也没有什么技术壁垒，为什么值 75 亿？后来的事证明了答案：不是因为代码托管的功能，是因为那 <strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">5000 万开发者</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2021 年，Nat Friedman（Dohmke 的前任，GitHub 的前一任 CEO）主导推出了 GitHub Copilot。一个能在你写代码时实时补全的 AI 助手。它的设计逻辑极其简单：你在哪里写代码，AI 就在哪里陪着你。不改变工作流，不需要学新工具，只是在你原有的编辑器里多出来一个"懂代码"的副驾驶。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个设计决策，现在回头看，是有深意的。AI 写代码助手的竞争对手有很多——JetBrains 的 AI Assistant、Amazon 的 CodeWhisperer……但 Copilot 的优势不是功能最强，而是它在<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">最多开发者已经在用的地方出现了</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Copilot 变成了 GitHub 历史上增长最快的产品。到 2025 年，付费用户超过 130 万，企业客户超过 5 万家，Fortune 100 里有 90% 的公司在用。Satya Nadella 在一次财报电话会议里说了一句话，很多人没太注意：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">GitHub Copilot 现在的业务体量，已经超过了 2018 年微软收购整个 GitHub 时候的规模。</strong></p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">75 亿美元的收购，买来了一个比自身体量还大的增量业务。这是一个飞轮在转：代码托管积累了开发者，开发者产生了代码数据，数据训练了 AI，AI 让开发者更离不开 GitHub……但飞轮运转到一定速度，会产生一个副作用。一个在 2024 年才开始显现的副作用。</p>
+</section>
+
+<!-- 数据卡片：Copilot 规模 -->
+<section style="padding: 18px 22px; margin: 0 0 28px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">GITHUB COPILOT · 规模数据</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">130万+</strong> — 付费用户（2025年）</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">5万+</strong> — 企业客户，Fortune 100覆盖率90%</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">42%</strong> — 付费AI编程工具市场占有率</p>
+</section>
+
+<!-- ========== 章节二：裂缝 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">二、裂缝</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Copilot 让 AI 写代码变成了日常。但随着 AI 能力的快速迭代，一件事正在悄悄发生：</p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">代码生成的速度，正在超出人类理解和审核的速度。</strong></p>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2021 年的 Copilot，是一个补全工具。你写一半，它帮你补另一半。人还在主导，AI 在辅助。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但到了 2024、2025 年，这件事发生了质变。Claude Code、Gemini CLI、Cursor——这些工具已经可以自主完成从理解需求、写代码、写测试、跑测试、提 PR 的<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">完整开发流程</strong>。你给它一个功能描述，它能在几分钟内交付一个可运行的版本，全程不需要人类盯着。这就是所谓的"AI Agent 时代"。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">对工程团队来说，这意味着什么？意味着<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">一个中等规模的工程团队，如果充分使用 AI Agent，每天可以产出的代码量，可能是过去纯人工状态的 10 倍甚至更多</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">10 倍的代码产出，但能做 Code Review 的工程师数量还是原来那些。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这里有一个被大多数人忽视的结构性矛盾。GitHub 的整套工作流——从 Issue 到 Pull Request 到 Code Review 到部署——是为一个前提设计的：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">代码是人写的，写代码的人能解释他们的每一个设计决策。</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但 AI 写的代码不是这样。你让 Claude 帮你写一个认证模块，它吐出 300 行代码，测试全过，功能完美。但那个做 Code Review 的同事打开文件，发现他根本不知道：这里为什么用递归不用迭代？这个设计决策是 AI 第一次给出的答案，还是经过反复调整之后的最终结果？那 300 行代码里有没有 AI 自己引入的安全漏洞？如果三个月后线上出了问题，从哪里开始排查？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">传统的 Git commit 记录里，这些信息都不在。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">不信任、不理解、不可追溯</strong>——这三个问题，在 AI 代码占比快速上升的 2025 年，变成了工程团队的真实日常。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Dohmke 离开 GitHub 之后，花了几个月时间和开发者聊。他在公开采访里描述看到的场景："我们正在经历一场 Agent 浪潮，AI 正在以任何人类都无法合理理解的速度生成大量代码。"</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">他把这个问题比喻成制造业的演进：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">从手工作坊时代进入工厂时代，你不能只是把机器搬进作坊，然后用以前管工匠的方式去管机器。你得重新设计整个生产管理体系。</strong>GitHub 是为手工作坊时代设计的。Entire 想从零开始建工厂时代的管理系统。</p>
+</section>
+
+<!-- 引用卡片：Dohmke 的核心判断 -->
+<section style="padding: 18px 22px; margin: 0 0 28px 0; background-color: #faf4f3; border-radius: 8px; border-left: 3px solid #d8a8a0;">
+<p style="margin: 0 0 10px 0; font-size: 15px; line-height: 1.8; color: #6a6a70; font-style: italic;">「我们正在经历一场 Agent 浪潮，AI 正在以任何人类都无法合理理解的速度生成大量代码。」</p>
+<p style="margin: 0; font-size: 12px; color: #a0a0a0;">— Thomas Dohmke，Entire 创始人 / 前 GitHub CEO</p>
+</section>
+
+<!-- 章节配图 -->
+<section style="margin-bottom: 28px; border-radius: 8px; overflow: hidden;">
+<img src="./附件/section2.png" style="width: 100%; height: auto; display: block;" />
+<p style="margin: 8px 0 0 0; font-size: 12px; color: #a0a0a0; text-align: center;">AI Agent 时代的开发者平台层次结构</p>
+</section>
+
+<!-- ========== 章节三：博弈 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">三、博弈</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">理解 Entire 在做什么，需要先看清楚 AI Agent 开发者工具这个赛道的竞争态势。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个市场有多大？Markets &amp; Markets 的预测是：AI Agent 市场将从 2025 年的 78 亿美元增长到 2030 年的 526 亿美元，年均复合增长率 46%。但"市场大"这个判断对竞争分析的意义不大。更关键的问题是：这个赛道里，<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">谁在哪个层卡位</strong>？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">目前这个赛道大概分三层：</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">模型层</strong>是 OpenAI、Anthropic、Google。这些公司提供 AI 能力本身。模型更强的，就有更多定价权。竞争最激烈，护城河也在不断被侵蚀——今天遥遥领先，三个月后可能就被追平了。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">框架层</strong>是 LangChain（GitHub Star 超过 80K）、CrewAI（已经融了 1800 万美元 A 轮，每天执行 10 万次以上的 Agent 任务，60% 的 Fortune 500 在用它）、微软的 Agent Framework。这些工具让开发者能快速搭建多 Agent 协作系统。框架层的竞争同样激烈，玩家众多，切换成本相对低。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">平台层</strong>是目前最稀缺的位置：谁能成为开发者管理 AI Agent 工作输出的基础设施？这三层的商业价值不对等。平台层一旦被确立，切换成本极高——你的代码历史、审计记录、工作流配置都在里面，迁移的代价就像从 GitHub 迁走一样痛苦。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Entire 选择的是第三层。但和框架层公司不同，Entire 的定位不是帮你<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">搭</strong> Agent，而是帮你<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">管 Agent 产生的结果</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个区别很关键。LangChain、CrewAI 解决的问题是：怎么让多个 AI Agent 协作起来，流水线式地完成一个复杂任务？Entire 解决的问题是：这些 AI Agent 完成任务、产出代码之后，工程团队怎么理解它们做了什么、为什么这么做、出了问题怎么追溯？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个定位，和当年 GitHub 与各种编程语言的关系很像。你用 Python 还是 Go 还是 Rust 写代码，GitHub 都能托管。你用 Claude 还是 Gemini 还是 GPT 写代码，Entire 都应该能管理产出。语言无关。Agent 无关。这是一个<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">中立的基础设施层</strong>的定位。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">第一个产品 Checkpoints，是一个开源命令行工具。它做的事情很具体：每当 AI Agent 提交代码，Checkpoints 自动把这次提交的<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">完整上下文</strong>一并记录——原始 Prompt 是什么、AI 做了哪些推理决策、调用了哪些外部工具、消耗了多少 Token、中途有没有被推翻重来再来一遍。所有这些信息，和代码一起存进 Git 仓库，并附上可视化界面。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">不用去找写这段代码的人问——或者说，根本没有"写这段代码的人"，有的只是提 Prompt 的人。而 Checkpoints 记录了这个 Prompt。<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">可追溯，就是可审计。可审计，就是可信任。</strong></p>
+</section>
+
+<!-- 金句卡片 -->
+<section style="margin-bottom: 28px;">
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">成为开发者工具的基础设施层，在每次范式转移时都是最稳的位置——不是因为你比别人强，而是因为你比别人早，早到成为了标准。</p>
+</section>
+
+<!-- ========== 章节四：赌注 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">四、赌注</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">开源是 Entire 的起点，但不是终点。背后的商业模型，是 GitHub 走过的那条路：用开源产品建立开发者信任，然后用企业版变现。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">开发者不信任黑箱。如果 Entire 是一个闭源产品，说"我们帮你记录 AI 的所有操作"，没有工程师会放心把自己公司的代码和 Prompt 交给它。开源让他们能看到：Entire 到底在记录什么、数据是怎么存储的、有没有把数据传到外部服务器。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">一旦这道信任门槛跨过去，企业版的价值才能显现。企业版要回答的问题，已经不只是工程效率层面的，而是治理层面的：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">我们公司所有 AI 产生的代码，有没有合规风险？有没有潜在的安全漏洞被遗漏？有没有不同的 Agent 在重复解决同一个问题、造成 Token 浪费？</strong></p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">不只是工程效率问题。这是一个<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">治理问题</strong>，一个<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">合规问题</strong>。就像<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">财务部门需要能审计账本</strong>，工程部门也需要能审计 AI 代码的工具。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Dohmke 说了一句话，很能体现他对这个时代节点的判断："2026 年，任何一个技术负责人在考虑团队成本的时候，考虑的已经不只是工程师的薪资、差旅和福利，还有 Token——AI 运行的消耗。这是一个全新的成本维度，过去完全不存在。"</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;"><strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">Token 成为成本</strong>，就意味着需要管理 Token。管理 Token，就需要知道每一次 Agent 运行消耗了多少、产出了什么、值不值得。这是 Entire 的更长期的价值所在。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但 Entire 面对的最大挑战，可能不是技术，而是时间窗口。GitHub 没有闲着。Copilot 在 2026 年推出了 Agent Mode，直接内嵌 AI Agent 管理功能。微软把 AutoGen 和 Semantic Kernel 合并成统一的企业 Agent 框架，计划在 2026 年 Q1 正式 GA，带企业级 SLA 和多语言支持。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这些大公司动作的逻辑很清楚：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">Agent 管理能力</strong>，是开发者平台争夺下一个十年控制权的关键位置。谁先把它做进工具链里，谁就能<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">锁住开发者</strong>。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Dohmke 对这个风险当然不陌生——他曾经在 GitHub 内部推动过很多 Copilot 相关的配套工具，但大公司的节奏就是慢，流程多，优先级排队。他出来创业，或许正是因为这种判断：<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">这个问题需要一个专注的小团队在两年内拿下，而不是一个大公司的某个产品线在五年内慢慢做。</strong></p>
+</section>
+
+<!-- 数据卡片：Entire 融资 -->
+<section style="padding: 18px 22px; margin: 0 0 28px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #e8e6e2; border-left: 3px solid #c0503e;">
+<p style="margin: 0 0 8px 0; font-size: 12px; color: #c0503e; font-weight: 600; letter-spacing: 1px;">ENTIRE · 融资信息</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">$6000万</strong> — 种子轮，开发者工具史上最大种子轮</p>
+<p style="margin: 0 0 5px 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">$3亿</strong> — 估值（Felicis 领投，M12、Madrona 跟投）</p>
+<p style="margin: 0; font-size: 14px; color: #3a3a3e; line-height: 1.7;"><strong style="color: #c0503e;">15人</strong> — 团队规模，全员远程，GitHub/Atlassian 背景</p>
+</section>
+
+<!-- ========== 章节五：三次跃迁 ========== -->
+<section style="margin-bottom: 30px;">
+<h2 style="font-size: 19px; color: #1a1a1e; margin: 0 0 16px 0; font-weight: 600; padding-left: 14px; border-left: 4px solid #c0503e; line-height: 1.4;">五、三次跃迁</h2>
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">从代码托管（GitHub），到 AI 辅助编程（Copilot），再到 AI Agent 编排平台（Entire）——</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这条产品进化线，本质上是<strong style="color: #1a1a1e; background: linear-gradient(to top, rgba(192,80,62,0.15) 35%, transparent 35%);">开发者生产力中枢的三次跃迁</strong>。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2008 年，GitHub 卡住了"代码在哪里"这个位置。2021 年，Copilot 卡住了"AI 在哪里帮你写代码"这个位置。2026 年，Entire 想卡住的是"AI 写完代码之后的管理、审计和追溯"这个位置。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这类机会有一个共同特征：当时做的人，往往被认为太早了，或者在解决一个"还不存在"的问题。但等到问题已经存在，位置也早就被别人占了。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">2026 年，在 GitHub 旗下的数百万开发者用户中，AI 生成代码的占比已经超过了 30%，而这个数字正在每季度以两位数的速度增长。可追溯性的问题，已经是现在时，不是未来时。</p>
+</section>
+
+<!-- ========== 结尾区域 ========== -->
+<section style="margin-bottom: 24px;">
+
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但有一个问题，或许是整件事里最值得停下来想的。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">如果未来 80% 的代码都由 AI 写成，那么"开发者"这个身份本身，会不会发生一次更大的变化——从"写代码的人"变成"管 AI 写代码的人"？</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">你能理解这个区别意味着什么吗？写代码，需要的是编程能力、算法思维、架构设计能力。管 AI 写代码，需要的可能是完全不同的技能：怎么给 AI 写出好的 Prompt、怎么验证 AI 的输出、怎么设计 AI Agent 之间的协作流程、怎么在合规和效率之间做权衡。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">Dohmke 押注的是：未来的开发者不消失，但工作性质从"生产代码"变成"管理 Agent 生产代码的过程"。这中间的过渡期，短则五年，长则十年，而 Entire 要在这个过渡期里建立不可替代的基础设施地位。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">这个赌注对不对，可能要再等两三年才有线索。</p>
+<p style="margin: 0 0 14px 0; font-size: 15px; line-height: 1.8; color: #3a3a3e;">但 6000 万美元的种子轮已经说明了一件事：</p>
+
+<!-- 收束金句卡片 -->
+<p style="font-size: 18px; color: #1a1a1e; font-weight: 600; margin: 16px 0; padding: 20px 24px; background: linear-gradient(135deg, #faf4f3 0%, #f0e8e6 100%); border-left: 4px solid #c0503e; border-radius: 0 8px 8px 0; line-height: 1.8;">目前能把这个问题说清楚的人，和愿意为这套解法付钱的机构，都已经站好了位置。</p>
+
+<p style="margin: 16px 0 0 0; font-size: 14px; line-height: 1.8; color: #6a6a70;">至于下一个占住基础设施位置的人是 Entire，还是又一个我们现在还没见过的名字——这是这个时代最有意思的问题之一。</p>
+</section>
+
+<!-- 结尾分隔 -->
+<section style="padding: 12px 0; margin-bottom: 6px; text-align: center;">
+<section style="display: inline-block; width: 36px; height: 2px; background-color: #c0503e; border-radius: 1px;"></section>
+</section>
+
+<!-- 底部品牌行 -->
+<section style="padding: 16px 0; text-align: center;">
+<p style="margin: 0 0 3px 0; font-size: 12px; color: #a0a0a0;">文 / Zayen知蓝</p>
+<p style="margin: 0; font-size: 11px; color: #c0c0c0; letter-spacing: 1px;">构建者视角的深度思考</p>
+</section>
+
+</section>
+</section>
+
+</body>
+</html>
